@@ -1,0 +1,59 @@
+{
+  "name": "@automatron/ad-harness",
+  "version": "0.1.0",
+  "description": "A drop in sponsored credit component for LLM apps. Watch a short message, earn credits, see the ledger.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "bin": {
+    "ad-harness": "./bin/ad-harness.mjs"
+  },
+  "exports": {
+    ".": "./src/index.mjs",
+    "./protocol": "./src/protocol.mjs",
+    "./issuer": "./src/issuer.mjs",
+    "./element": "./src/element.mjs"
+  },
+  "files": [
+    "src",
+    "bin",
+    "examples",
+    "docs",
+    "assets",
+    "index.html",
+    "styles.css",
+    "app.mjs",
+    "README.md",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "CODE_OF_CONDUCT.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:browser": "node scripts/build-site.mjs && node scripts/browser-check.mjs",
+    "check": "npm test && node scripts/check.mjs",
+    "dev": "node scripts/serve.mjs",
+    "verify": "node bin/ad-harness.mjs verify",
+    "credit": "node bin/ad-harness.mjs credit",
+    "demo": "node bin/ad-harness.mjs demo",
+    "build:site": "node scripts/build-site.mjs"
+  },
+  "keywords": [
+    "ads",
+    "credits",
+    "llm",
+    "custom-element",
+    "attention",
+    "sponsored-inference"
+  ],
+  "devDependencies": {
+    "playwright-core": "1.65.1"
+  }
+}

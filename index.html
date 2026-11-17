@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Ad Harness: a drop in sponsored credit component for LLM apps. Watch a short sponsored message, earn credits, inspect the receipt and the ledger."
+    />
+    <meta name="theme-color" content="#0b0b0a" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Ad Harness | Attention, settled.</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ad Harness" />
+    <meta property="og:title" content="Ad Harness | Attention, settled." />
+    <meta
+      property="og:description"
+      content="Watch a short sponsored message. Earn credits for the model. Inspect the watch, the receipt and every movement in the ledger."
+    />
+    <meta
+      property="og:image"
+      content="https://automatron-workflows.github.io/ad-harness/assets/ad-harness-og.png"
+    />
+    <meta
+      property="og:image:alt"
+      content="Ad Harness: Attention, settled, with a rising sun and a forty credit meter."
+    />
+    <meta
+      property="og:url"
+      content="https://automatron-workflows.github.io/ad-harness/"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://automatron-workflows.github.io/ad-harness/assets/ad-harness-og.png"
+    />
+    <meta name="color-scheme" content="dark" />
+    <link
+      rel="canonical"
+      href="https://automatron-workflows.github.io/ad-harness/"
+    />
+    <link rel="icon" href="assets/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="app.mjs"></script>
+  </head>
+  <body class="ah-experience">
+    <div class="ah-wrap">
+      <header class="ah-top">
+        <a class="ah-wordmark" href="#demo">
+          <span class="ah-mark" aria-hidden="true">a</span>
+          adharness
+        </a>
+        <nav class="ah-top-nav" aria-label="Ad Harness">
+          <a href="#contract">The contract</a>
+          <a href="#inspect">Under the hood</a>
+          <a href="https://github.com/Automatron-workflows/ad-harness"
+            >GitHub ↗</a
+          >
+        </nav>
+      </header>
+
+      <main>
+        <section class="ah-hero" aria-labelledby="ah-title">
+          <p class="ah-eyebrow">Open source · Automatron</p>
+          <h1 id="ah-title">Attention, settled.</h1>
+          <p class="ah-lede">
+            A drop in sponsored credit component for LLM apps. The person
+            watches a short message. The sponsor covers the inference. The
+            ledger shows exactly what moved.
+          </p>
+          <ul class="ah-meta" aria-label="Project facts">
+            <li>Working reference</li>
+            <li>v0.1</li>
+            <li>No network</li>
+            <li>Demo credits</li>
+          </ul>
+          <a class="ah-hero-link" href="#contract"
+            >Read the contract <span aria-hidden="true">↓</span></a
+          >
+        </section>
+
+        <section class="ah-demo" id="demo" aria-label="Working Ad Harness demo">
+          <div class="ah-device">
+            <div class="ah-device-bar">
+              <div class="ah-host">
+                <span class="ah-host-mark" aria-hidden="true">s</span>
+                <span>
+                  <b>Sage</b>
+                  <small>Demo conversation · fixed responses</small>
+                </span>
+              </div>
+              <span class="ah-device-cost">10 credits per reply</span>
+            </div>
+
+            <div class="ah-chat">
+              <div class="ah-messages" id="messages"></div>
+              <form class="ah-composer" id="composer">
+                <div class="ah-input-row">
+                  <input
+                    id="message"
+                    aria-label="Message"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Ask about the harness"
+                  />
+                  <button class="ah-send" id="send" type="submit">Send</button>
+                </div>
+                <div class="ah-composer-meta">
+                  <span id="composer-state">10 credits · 10 per reply</span>
+                  <span id="replies">1 reply left</span>
+                </div>
+              </form>
+            </div>
+
+            <aside class="ah-rail" aria-label="Credits and sponsored message">
+              <div class="ah-balance">
+                <div class="ah-rail-head">
+                  <span>Credits</span>
+                  <span class="ah-state" id="state" data-state="idle"
+                    >Awaiting a watch</span
+                  >
+                </div>
+                <p class="ah-balance-value">
+                  <span id="balance">10</span><small>credits</small>
+                </p>
+                <p class="ah-balance-sub">
+                  10 per reply · 40 per sponsored message
+                </p>
+                <div class="ah-balance-meter" id="meter" aria-hidden="true">
+                  <span data-filled="true"></span>
+                  <span data-filled="false"></span>
+                  <span data-filled="false"></span>
+                  <span data-filled="false"></span>
+                </div>
+              </div>
+
+              <ad-harness
+                id="player"
+                ad-id="still-launch"
+                sponsor="Still"
+                title="A quieter way to start."
+                duration="15"
+                reward="40"
+              >
+                <div
+                  class="ah-film"
+                  id="film"
+                  data-act="0"
+                  data-status="idle"
+                  style="--ah-progress: 0"
+                >
+                  <div class="ah-film-glow"></div>
+                  <div class="ah-film-sun"></div>
+                  <div class="ah-film-horizon"></div>
+                  <div class="ah-film-copy">
+                    <p class="ah-film-act" data-active="true">
+                      <span class="ah-film-line">Still.</span
+                      ><span class="ah-film-note">A quieter way to start.</span>
+                    </p>
+                    <p class="ah-film-act">
+                      <span class="ah-film-line">One task.</span
+                      ><span class="ah-film-note">One timer. No feed.</span>
+                    </p>
+                    <p class="ah-film-act">
+                      <span class="ah-film-line">Four hours.</span
+                      ><span class="ah-film-note">Kept.</span>
+                    </p>
+                    <p class="ah-film-act">
+                      <span class="ah-film-line">Try a week.</span
+                      ><span class="ah-film-note">still.example</span>
+                    </p>
+                  </div>
+                </div>
+              </ad-harness>
+
+              <details class="ah-transcript">
+                <summary>Read the sponsored message</summary>
+                <p>
+                  Still. A quieter way to start. One task. One timer. No feed.
+                  Four hours. Kept. Try a week. still.example
+                </p>
+                <p class="ah-transcript-note">
+                  Still is a fictional product used for this demonstration.
+                </p>
+              </details>
+
+              <div
+                class="ah-verification"
+                id="verification"
+                data-state="idle"
+                aria-live="polite"
+              >
+                <div>
+                  <span class="ah-verification-mark" aria-hidden="true">·</span>
+                  <b id="verification-title">No claim yet</b>
+                </div>
+                <p id="verification-note">
+                  A completed watch becomes a single use receipt.
+                </p>
+                <code id="verification-receipt" hidden></code>
+              </div>
+
+              <div class="ah-ledger">
+                <div class="ah-rail-head">
+                  <span>Ledger</span>
+                  <span id="watch-count">0 of 3 sponsored</span>
+                </div>
+                <ul id="ledger">
+                  <li class="ah-ledger-empty">No movements yet.</li>
+                </ul>
+              </div>
+
+              <p class="ah-player-state" id="player-state" aria-live="polite">
+                Player · idle
+              </p>
+            </aside>
+          </div>
+          <p class="ah-device-note">
+            The player pauses when you leave the tab. A completed watch is
+            verified once, then credited once.
+          </p>
+        </section>
+
+        <section
+          class="ah-contract"
+          id="contract"
+          aria-labelledby="ah-contract-title"
+        >
+          <div class="ah-section-head">
+            <p class="ah-eyebrow">The contract</p>
+            <h2 id="ah-contract-title">
+              Small enough to drop in. Strict enough to trust.
+            </h2>
+          </div>
+          <ol class="ah-principles">
+            <li>
+              <span class="ah-principle-num" aria-hidden="true">01</span>
+              <h3>The component</h3>
+              <p>
+                One custom element. Attributes for the sponsor, duration and
+                reward. Events for every state change. No framework, no network,
+                no tracking.
+              </p>
+            </li>
+            <li>
+              <span class="ah-principle-num" aria-hidden="true">02</span>
+              <h3>The proof</h3>
+              <p>
+                The player emits a completion claim: ad, session, elapsed time
+                and nonce. The host verifies that claim before it becomes a
+                receipt.
+              </p>
+            </li>
+            <li>
+              <span class="ah-principle-num" aria-hidden="true">03</span>
+              <h3>The ledger</h3>
+              <p>
+                A single use receipt grants credits. Short watches, stale
+                claims, tampered signatures, duplicates and session caps are
+                rejected before the balance moves.
+              </p>
+            </li>
+          </ol>
+        </section>
+
+        <section
+          class="ah-inspect"
+          id="inspect"
+          aria-labelledby="ah-inspect-title"
+        >
+          <div class="ah-inspect-head">
+            <div>
+              <p class="ah-eyebrow">Under the hood</p>
+              <h2 id="ah-inspect-title">Under the hood</h2>
+              <p>The same run, observed from the host side.</p>
+            </div>
+            <div class="ah-inspect-actions">
+              <button id="replay" type="button" disabled>
+                Replay the last receipt
+              </button>
+              <button id="reset" type="button">Reset the demo</button>
+            </div>
+          </div>
+
+          <div class="ah-inspect-grid">
+            <div class="ah-events">
+              <div class="ah-code-head">
+                <h3>Event trace</h3>
+                <span>latest first</span>
+              </div>
+              <ol id="trace" aria-label="Event trace"></ol>
+              <p class="ah-replay-note" id="replay-note" data-state="idle">
+                The ledger must refuse a replayed receipt.
+              </p>
+            </div>
+
+            <div class="ah-receipt">
+              <div class="ah-code-head">
+                <h3>Receipt</h3>
+                <button id="copy" type="button" disabled>Copy</button>
+              </div>
+              <pre id="receipt">Complete a watch to inspect its receipt.</pre>
+            </div>
+          </div>
+
+          <div class="ah-snippets">
+            <div>
+              <h3>Embed</h3>
+              <pre>
+&lt;ad-harness
+  ad-id="still-launch"
+  sponsor="Still"
+  duration="15"
+  reward="40"&gt;
+  &lt;!-- the sponsor creative supplied by the ad network --&gt;
+&lt;/ad-harness&gt;</pre>
+            </div>
+            <div>
+              <h3>Host verification</h3>
+              <pre>
+// host app, after the completion claim
+const receipt = await issuer.issue(claim); // server
+await issuer.verify(receipt);              // server
+const next = creditReceipt(ledger, receipt, ad, {
+  maxAds: 3,
+});
+ledger = next.state;</pre>
+            </div>
+          </div>
+        </section>
+
+        <footer class="ah-boundary">
+          <p>
+            This is a working reference, not an ad network. The sponsor is
+            fictional. The issuer runs in your browser so the whole contract can
+            be inspected. Production needs a server side verifier, an ad network
+            signature and a real billing agreement. No targeting, no telemetry,
+            no cookies.
+          </p>
+          <p>
+            MIT licensed. Built by
+            <a href="https://github.com/Automatron-workflows">Automatron</a>.
+            The component, protocol and tests live in this repository.
+            <a href="https://github.com/Automatron-workflows/ad-harness"
+              >Source ↗</a
+            >
+          </p>
+        </footer>
+      </main>
+    </div>
+    <noscript
+      ><p class="ah-noscript">
+        Enable JavaScript to run the local demo. No account, network or API key
+        is required.
+      </p></noscript
+    >
+  </body>
+</html>

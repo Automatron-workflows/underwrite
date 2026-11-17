@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Ad Harness</title>
+  <desc id="desc">A dark poster for Ad Harness with a rising warm sun, the words Attention, settled, and a four part credit meter.</desc>
+  <defs>
+    <radialGradient id="sun" cx="38%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="#f8ecc9"/>
+      <stop offset="46%" stop-color="#e0c184"/>
+      <stop offset="76%" stop-color="#b28b4e"/>
+      <stop offset="100%" stop-color="#6d5129"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="76%" r="55%">
+      <stop offset="0%" stop-color="#e9d5a7" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#e9d5a7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#14130f" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0b0b0a" stop-opacity=".92"/>
+    </linearGradient>
+    <pattern id="rule" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#f3efe3" stroke-opacity=".035"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="720" fill="#14130f"/>
+  <rect width="1280" height="720" fill="url(#rule)"/>
+  <rect width="1280" height="720" fill="url(#glow)"/>
+  <circle cx="640" cy="548" r="286" fill="url(#sun)" opacity=".92"/>
+  <rect y="492" width="1280" height="1" fill="#f3efe3" opacity=".18"/>
+  <rect y="0" width="1280" height="720" fill="url(#fade)"/>
+
+  <g fill="#f3efe3" font-family="Schibsted Grotesk, Helvetica Neue, Arial, sans-serif">
+    <text x="64" y="190" font-size="22" font-weight="500" letter-spacing="3" fill="#e9d5a7">SPONSORED CREDITS</text>
+    <text x="64" y="330" font-size="104" font-weight="500" letter-spacing="-7">Attention,</text>
+    <text x="64" y="426" font-size="104" font-weight="500" letter-spacing="-7" fill="#b9b5a9">settled.</text>
+  </g>
+
+  <g transform="translate(934 58)" fill="#f3efe3" font-family="Geist Mono, Menlo, Consolas, monospace">
+    <text x="282" y="20" font-size="15" letter-spacing="2.4" text-anchor="end" opacity=".55">AUTOMATRON</text>
+  </g>
+
+  <g transform="translate(934 470)">
+    <rect width="282" height="172" rx="16" fill="#10100e" fill-opacity=".82" stroke="#f3efe3" stroke-opacity=".14"/>
+    <text x="24" y="38" fill="#9e9d95" font-family="Geist Mono, Menlo, Consolas, monospace" font-size="11" letter-spacing="2">CREDITS</text>
+    <text x="24" y="94" fill="#f3efe3" font-family="Schibsted Grotesk, Helvetica Neue, Arial, sans-serif" font-size="48" font-weight="500" letter-spacing="-3">40</text>
+    <text x="90" y="93" fill="#9e9d95" font-family="Geist Mono, Menlo, Consolas, monospace" font-size="10" letter-spacing="1.6">EARNED</text>
+    <g transform="translate(24 122)">
+      <rect width="50" height="5" rx="2.5" fill="#e9d5a7"/>
+      <rect x="58" width="50" height="5" rx="2.5" fill="#e9d5a7"/>
+      <rect x="116" width="50" height="5" rx="2.5" fill="#e9d5a7"/>
+      <rect x="174" width="50" height="5" rx="2.5" fill="#e9d5a7"/>
+    </g>
+    <text x="24" y="150" fill="#77766f" font-family="Geist Mono, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.4">15S WATCH · 4 REPLIES</text>
+  </g>
+
+  <g transform="translate(64 646)" fill="#9e9d95" font-family="Geist Mono, Menlo, Consolas, monospace" font-size="10" letter-spacing="1.8">
+    <text y="0">COMPONENT · CLAIM · RECEIPT · LEDGER</text>
+  </g>
+</svg>
