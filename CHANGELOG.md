@@ -10,6 +10,8 @@
 - Added the demo HMAC issuer and verifier, clearly labelled as a demo boundary.
 - Added a working host demo with a chat, credit rail, transcript, event trace,
   receipt inspection, receipt replay and reset.
+- Added a skip link, a dedicated live announcer and a hidden decorative film so
+  the sponsor copy reaches assistive technology through the transcript.
 - Added a CLI for `sample`, `verify`, `credit` and `demo`.
 - Added Node tests, a static audit and a real Chrome browser check.
 - Added a static site build and a GitHub Pages workflow.

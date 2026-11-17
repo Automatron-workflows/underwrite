@@ -51,6 +51,8 @@
     <script type="module" src="app.mjs"></script>
   </head>
   <body class="ah-experience">
+    <a class="ah-skip" href="#demo">Skip to the demo</a>
+    <p class="ah-sr-only" id="announcer" role="status" aria-live="polite"></p>
     <div class="ah-wrap">
       <header class="ah-top">
         <a class="ah-wordmark" href="#demo">
@@ -86,7 +88,12 @@
           >
         </section>
 
-        <section class="ah-demo" id="demo" aria-label="Working Ad Harness demo">
+        <section
+          class="ah-demo"
+          id="demo"
+          tabindex="-1"
+          aria-label="Working Ad Harness demo"
+        >
           <div class="ah-device">
             <div class="ah-device-bar">
               <div class="ah-host">
@@ -155,6 +162,7 @@
                   data-act="0"
                   data-status="idle"
                   style="--ah-progress: 0"
+                  aria-hidden="true"
                 >
                   <div class="ah-film-glow"></div>
                   <div class="ah-film-sun"></div>

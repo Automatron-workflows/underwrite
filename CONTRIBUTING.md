@@ -28,6 +28,9 @@ Set `CHROME_PATH` if Chrome is not in its default location.
 - **Site.** Keep `scripts/build-site.mjs` as an explicit allowlist. The built
   site must contain only local modules and assets.
 
+See [MAINTAINING.md](MAINTAINING.md) for the browser check, publication and
+rollback loop.
+
 ## Rules
 
 - Do not add runtime dependencies.

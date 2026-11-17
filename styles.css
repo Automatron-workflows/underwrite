@@ -53,6 +53,32 @@ body {
   background: var(--ah-accent);
   color: var(--ah-accent-ink);
 }
+.ah-skip {
+  position: absolute;
+  left: -9999px;
+}
+.ah-skip:focus {
+  left: 16px;
+  top: 16px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: var(--ah-accent);
+  color: var(--ah-accent-ink);
+  font: 600 12px/1 var(--body);
+}
+.ah-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.ah-demo:focus {
+  outline: none;
+}
 .ah-wrap {
   width: 100%;
   max-width: 1120px;

@@ -56,6 +56,7 @@ Options:
  * @returns {{ command?: string, positionals: string[], flags: Record<string, string | boolean> }}
  */
 function parseArgs(argv) {
+  const booleanFlags = new Set(["json", "help", "version"]);
   /** @type {string[]} */
   const positionals = [];
   /** @type {Record<string, string | boolean>} */
@@ -69,6 +70,10 @@ function parseArgs(argv) {
     const [name, inline] = value.slice(2).split("=", 2);
     if (inline !== undefined) {
       flags[name] = inline;
+      continue;
+    }
+    if (booleanFlags.has(name)) {
+      flags[name] = true;
       continue;
     }
     const next = argv[index + 1];

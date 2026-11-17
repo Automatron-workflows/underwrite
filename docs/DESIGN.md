@@ -81,8 +81,8 @@ No dash punctuation is used in prose. Values and units stay next to the action.
 - The film is decorative; the transcript carries the sponsor copy.
 - Focus uses a two pixel champagne outline with an offset.
 - The page has a skip-free single flow; the top navigation is optional.
-- The 390 pixel layout has no horizontal overflow. The chat and rail stack, and
-  the advertise action scrolls the player into view before starting.
+- A 390 pixel layout has no horizontal overflow. The chat and rail stack, and
+  the earn action scrolls the player into view before starting.
 
 ## Rejected alternatives
 

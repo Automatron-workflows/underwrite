@@ -188,6 +188,8 @@ test/                  Node tests
 scripts/               dev server, static check, site build, browser check
 ```
 
+[Maintaining](MAINTAINING.md) records the release and rollback loop.
+
 ## Status
 
 v0.1 is a local first reference. The package is `private: true` until the owner

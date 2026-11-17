@@ -52,6 +52,7 @@ const $ = (selector) => document.querySelector(selector);
 
 const el = {
   messages: $("#messages"),
+  announcer: $("#announcer"),
   composer: $("#composer"),
   message: $("#message"),
   send: $("#send"),
@@ -148,8 +149,7 @@ function renderMessages() {
   el.messages.textContent = "";
   const log = document.createElement("div");
   log.className = "ah-log";
-  log.setAttribute("role", "log");
-  log.setAttribute("aria-live", "polite");
+  log.setAttribute("role", "group");
   log.setAttribute("aria-label", "Demo conversation");
   for (const message of messages) {
     const row = document.createElement("div");
@@ -370,7 +370,9 @@ function send(value) {
     ledger = result.state;
     addTrace("ledger:spent", `-${MESSAGE_COST} · reply`);
     appendMessage("user", text);
-    appendMessage("assistant", replyFor(text), { label: COPY.scripted });
+    const reply = replyFor(text);
+    appendMessage("assistant", reply, { label: COPY.scripted });
+    el.announcer.textContent = reply;
     el.message.value = "";
     renderMessages();
     render();
@@ -448,13 +450,9 @@ function replayReceipt() {
     el.replayNote.dataset.state = "error";
     el.replayNote.textContent = replayNote;
     addTrace("replay:rejected", code);
-    appendMessage(
-      "system",
-      `Replay rejected. ${code}. The balance did not move.`,
-      {
-        tone: "reject",
-      },
-    );
+    const message = `Replay rejected. ${code}. The balance did not move.`;
+    el.announcer.textContent = message;
+    appendMessage("system", message, { tone: "reject" });
     renderMessages();
     render();
   }
@@ -476,6 +474,7 @@ function reset() {
   startedAtMono = performance.now();
   milestone = -1;
   el.message.value = "";
+  el.announcer.textContent = "";
   el.player.reset();
   el.film.dataset.status = "idle";
   el.film.dataset.act = "0";

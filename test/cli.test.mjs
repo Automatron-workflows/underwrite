@@ -25,7 +25,7 @@ test("the CLI samples, verifies and credits a fresh claim", async () => {
     assert.equal(claim.elapsedMs, 15_000);
 
     const verified = JSON.parse(
-      (await cli(["verify", "claim.json", "--json"], directory)).stdout,
+      (await cli(["verify", "--json", "claim.json"], directory)).stdout,
     );
     assert.deepEqual(verified, {
       ok: true,
