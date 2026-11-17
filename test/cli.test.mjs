@@ -77,6 +77,13 @@ test("the CLI refuses a short watch with a machine readable code", async () => {
   }
 });
 
+test("the CLI prints help and version", async () => {
+  const version = await cli(["--version"], process.cwd());
+  assert.equal(version.stdout.trim(), "0.1.0");
+  const help = await cli(["--help"], process.cwd());
+  assert.match(help.stdout, /Usage:/);
+});
+
 test("the CLI demo prints the complete local exchange", async () => {
   const { stdout } = await cli(["demo"], process.cwd());
   assert.match(stdout, /Ad\s+still-launch/);

@@ -152,12 +152,12 @@ function fail(message) {
 
 async function main() {
   const { command, positionals, flags } = parseArgs(process.argv.slice(2));
-  if (flags.help || command === "help" || !command) {
-    process.stdout.write(usage);
-    return;
-  }
   if (flags.version || command === "version") {
     process.stdout.write(`${pkg.version}\n`);
+    return;
+  }
+  if (flags.help || command === "help" || !command) {
+    process.stdout.write(usage);
     return;
   }
 

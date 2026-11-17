@@ -83,7 +83,11 @@ try {
       "playing",
   );
 
-  await page.waitForTimeout(1_100);
+  await page.waitForFunction(
+    () => (document.querySelector("ad-harness")?.elapsedMs ?? 0) > 1_000,
+    null,
+    { timeout: 5_000 },
+  );
   await adAction("pause");
   assert.equal(await adStatus(), "paused");
   await adAction("resume");
