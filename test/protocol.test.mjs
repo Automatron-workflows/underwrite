@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { stillAd } from "../examples/still-ad.mjs";
 import {
   AD_HARNESS_VERSION,
@@ -41,6 +42,13 @@ function receipt(overrides = {}) {
     ...overrides,
   };
 }
+
+test("the bundled ad JSON matches the module definition", async () => {
+  const json = JSON.parse(
+    await readFile(new URL("../examples/ad.json", import.meta.url), "utf8"),
+  );
+  assert.deepEqual(json, stillAd);
+});
 
 test("a completed claim passes the published ad definition", () => {
   assert.doesNotThrow(() => assertValidClaim(claim(), stillAd));
