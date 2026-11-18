@@ -27,6 +27,10 @@ Set `CHROME_PATH` if Chrome is not in its default location.
   of a side rail, desktop and 390 pixel layouts, keyboard focus, pause and
   resume, offscreen pause, completion, receipt replay and reset. The card must
   stay between turns and must not use the assistant bubble or voice.
+- **Host previews.** Update `hosts.html`, `hosts.css` or `hosts.mjs`. Keep the
+  page labelled illustrative, disclose the host trademarks, use no official
+  logos and run the browser check at desktop and 390 pixels. The working
+  component and reward flow stay on the demo.
 - **Site.** Keep `scripts/build-site.mjs` as an explicit allowlist. The built
   site must contain only local modules and assets.
 
