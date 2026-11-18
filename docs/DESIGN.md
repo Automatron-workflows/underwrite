@@ -73,12 +73,12 @@ rejection. The sponsor film uses the same warm family.
 ## Copy
 
 - The headline is **Attention, settled.**
-- The task line is **Watch a sponsored message. Earn credits for Sage Mini.**
+- The task line is **Watch a sponsored message. Earn free credits for Sage Mini.**
 - The component is **adharness** in the wordmark and **Ad Harness** in prose.
 - The host app is **Sage**, model **Sage Mini**, labelled `Mini · ad supported`.
 - The sponsor is **Still**, a fictional product.
-- The reward is **40 credits** for an 8 second inline watch; the reply is **10
-  credits**; the credits are scoped to Sage Mini.
+- The reward is **40 free credits** for an 8 second inline watch; the reply is
+  **10 credits**; the credits are scoped to Sage Mini.
 - The boundary is stated plainly in the footer and How it works: demo issuer,
   fictional sponsor, no ad network, no money.
 

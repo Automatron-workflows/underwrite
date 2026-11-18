@@ -21,7 +21,7 @@ grant a credit receipt the host can redeem exactly once.
 
 The demo is a working end to end reference. The card sits between the assistant
 intro and the next turn. A chat reply costs 10 credits. An 8 second sponsored
-card earns 40 credits for **Sage Mini**. The player pauses when the tab is
+card earns 40 free credits for **Sage Mini**. The player pauses when the tab is
 hidden or the card leaves the view. Completion produces a claim. The host checks
 the claim, verifies a signed receipt and updates the credit chip. Replaying the
 receipt is refused.
@@ -160,10 +160,10 @@ network served the message. Production verification belongs on a server.
 - a session beyond its cap (`session_cap`)
 - a spend below zero (`insufficient_credits`)
 
-The demo starts at 10 credits, charges 10 per reply, rewards 40 per 8 second
-inline watch and caps the session at 3 watches. Credits are scoped to **Sage
-Mini** in the demo. The **Replay the last receipt** control proves the second
-credit is refused while the balance stays unchanged.
+The demo starts at 10 credits, charges 10 per reply, rewards 40 free credits per
+8 second inline watch and caps the session at 3 watches. Credits are scoped to
+**Sage Mini** in the demo. The **Replay the last receipt** control proves the
+second credit is refused while the balance stays unchanged.
 
 ## Boundary
 

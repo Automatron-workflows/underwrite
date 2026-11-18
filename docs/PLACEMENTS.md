@@ -49,7 +49,8 @@ it is. It should not copy the bubble shape, avatar or voice of the assistant.
 
 ## Reward rules
 
-- The demo reward is 40 credits for an 8 second view.
+- The demo reward is 40 free credits for an 8 second view.
+- The credits are free to the person and funded by the sponsor.
 - Credits are scoped to the model named in the host. The demo uses **Sage Mini**.
 - An explicit watch starts the timer. A scroll out of view pauses it; the person
   must resume.

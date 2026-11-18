@@ -14,7 +14,7 @@ This is a recorded review, not a certification or a user study.
 
 | Field                         | Decision                                                                                                                                |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Task                          | Ask Sage Mini a question, then earn credits for another reply by watching one inline sponsored card.                                    |
+| Task                          | Ask Sage Mini a question, then earn free credits for another reply by watching one inline sponsored card.                               |
 | Primary object                | The conversation with the sponsored card inside it, plus the model scoped credit chip in the host bar.                                  |
 | Main action                   | Watch the sponsored card when credits run out. Send a reply when credits are available.                                                 |
 | Essential visible information | Sponsor, duration, reward, price per reply, balance, model scope, locked send state, pause and resume, receipt result, session cap.     |

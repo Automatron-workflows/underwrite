@@ -8,9 +8,9 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:4173/`. The sponsored card sits inside the conversation
-after the assistant intro. Watch 8 seconds, earn 40 credits for **Sage Mini**,
-inspect the receipt in Developer and try to replay it. The demo issuer is public
-on purpose; it proves the flow, not an ad network.
+after the assistant intro. Watch 8 seconds, earn 40 free credits for **Sage
+Mini**, inspect the receipt in Developer and try to replay it. The demo issuer is
+public on purpose; it proves the flow, not an ad network.
 
 For a first contribution, start with an open issue that has a concrete scope and
 a verification command. The [roadmap](docs/ROADMAP.md) names the next useful
