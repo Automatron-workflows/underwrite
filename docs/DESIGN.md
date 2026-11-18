@@ -21,8 +21,9 @@ in context.
 - One dark chat surface on a near black page.
 - A short wordmark bar, one headline and one task line. No introduction,
   feature pills or numbered contract section above the demo.
-- One conversation. The sponsored card sits after the assistant intro, between
-  turns, with the thread continuing below it.
+- One conversation. An authored sample exchange shows a question and a labelled
+  answer. The sponsored card sits after the answer, between turns, with the
+  thread continuing below it.
 - A model scoped credit chip in the host bar. The inline card is not separated
   from the conversation by a side rail.
 - One primary action at each stage: watch, resume or send.
@@ -31,9 +32,9 @@ in context.
 - The exchange, placement rules and boundary live behind How it works.
 - A concise footer states the boundary without repeating the whole protocol.
 
-The first view at desktop size contains the headline, the chat, the inline
-sponsored card, the credit chip and the composer. The page does not require an
-introductory read.
+The first view at desktop size contains the headline, the sample exchange, the
+inline sponsored card, the credit chip and the composer. The page does not
+require an introductory read.
 
 ## The sponsor film
 
@@ -114,6 +115,8 @@ contract section.
   demonstrate the inline product.
 - **An unlabelled brand suggestion.** It would look like a model endorsement.
 - **A universal wallet.** It would blur which model the sponsored credits fund.
+- **A row of starter buttons.** They competed with the conversation and the
+  card. One authored sample exchange shows the task.
 - **A tutorial page above the demo.** It delays the usable object and repeats
   what the chat, card and credit chip already show.
 - **A duplicate verification card.** The credit chip, chat result and Developer

@@ -19,11 +19,12 @@ An LLM app can run out of credits. Ad Harness gives it one honest option: place
 a labelled sponsored card in the conversation, verify that it was watched, and
 grant a credit receipt the host can redeem exactly once.
 
-The demo is a working end to end reference. The card sits between the assistant
-intro and the next turn. A chat reply costs 10 credits. An 8 second sponsored
-card earns 40 free credits for **Sage Mini**. The player pauses when the tab is
-hidden or the card leaves the view. Completion produces a claim. The host checks
-the claim, verifies a signed receipt and updates the credit chip. Replaying the
+The demo is a working end to end reference. The card sits after a sample
+assistant answer and before the next turn. The sample exchange is authored; its
+answer is labelled. A chat reply costs 10 credits. An 8 second sponsored card
+earns 40 free credits for **Sage Mini**. The player pauses when the tab is hidden
+or the card leaves the view. Completion produces a claim. The host checks the
+claim, verifies a signed receipt and updates the credit chip. Replaying the
 receipt is refused.
 
 The page follows the Functional Minimalism harness: the working chat and the

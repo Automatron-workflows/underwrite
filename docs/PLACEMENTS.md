@@ -93,7 +93,8 @@ for those.
 ## Demo specifics
 
 - Host: **Sage**, model **Sage Mini**, labelled `Mini · ad supported`.
-- Placement: after the assistant intro and before the user's next turn.
+- Placement: after the sample assistant answer and before the user's next turn.
+  The sample exchange is authored; the answer is labelled.
 - Sponsor: **Still**, a fictional product.
 - Watch: 8 seconds, explicit start, pause when hidden or out of view.
 - Reward: 40 credits, scoped to Sage Mini.

@@ -45,9 +45,10 @@ The demo uses a wide stage inside the conversation:
 }
 ```
 
-The demo places the card after the assistant intro and keeps the thread below
-it. The card is not recreated on each message; that would reset the watch. Keep
-the sponsored node stable while the conversation appends.
+The demo places the card after a sample assistant answer and keeps the thread
+below it. The sample exchange is authored; the assistant answer is labelled.
+The card is not recreated on each message; that would reset the watch. Keep the
+sponsored node stable while the conversation appends.
 
 ## Mark up the slot
 

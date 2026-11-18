@@ -3,9 +3,9 @@
 ## Unreleased
 
 - Recomposed the demo as an inline sponsored card inside the conversation, with
-  a model scoped credit chip in the host bar and no side rail. The 8 second card
-  sits between the assistant intro and the thread; the transcript is inline; the
-  credit chip, chat receipt and Developer trace carry the accounting.
+  a model scoped credit chip in the host bar and no side rail. An authored sample
+  exchange shows a question and a labelled answer; the 8 second card follows the
+  answer and the thread continues below.
 - Reworked the demo around Functional Minimalism: one headline and one task
   line, the inline card and credit chip lead, optional explanation is behind
   **How it works**, and the receipt, trace, placement snippet and host

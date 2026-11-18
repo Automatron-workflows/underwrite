@@ -122,18 +122,21 @@ try {
   });
   assert.deepEqual(smallTargets, []);
 
-  // Spend the starting credit, then start the sponsored watch from the composer.
-  await page.locator(".ah-starters button").first().click();
+  // Spend the starting credit with a real question, then start the sponsored watch.
+  await page.locator("#message").fill("What does a reply cost?");
+  await page.locator("#send").click();
   await page.waitForFunction(
     () => document.querySelector("#balance")?.textContent?.trim() === "0",
   );
   assert.equal(await text("#send"), "Earn 40");
   assert.equal(await page.locator("#message").isDisabled(), true);
-  assert.match(await text("#messages"), /Demo response/);
   assert.equal(
-    await page.evaluate(() => document.querySelector("#starters")?.hidden),
-    true,
+    await page.evaluate(
+      () => document.querySelector("#thread")?.children.length,
+    ),
+    2,
   );
+  assert.match(await text("#thread"), /Demo response/);
 
   await page.locator("#send").click();
   await page.waitForFunction(
@@ -192,10 +195,6 @@ try {
   );
   assert.equal(await adStatus(), "idle");
   assert.match(await text("#receipt"), /Complete a watch/);
-  assert.equal(
-    await page.evaluate(() => document.querySelector("#starters")?.hidden),
-    false,
-  );
   await page.locator("#developer-dialog [data-close]").click();
   await page
     .locator("#developer-dialog")

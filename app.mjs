@@ -29,14 +29,9 @@ const AD = {
 
 const COPY = {
   scripted: "Demo response",
-  placeholder: "Ask about the harness",
-  placeholderLocked: "Watch the sponsored message to keep going",
+  placeholder: "Ask a question",
+  placeholderLocked: "Watch the sponsored card to keep going",
   earn: "Earn 40",
-  prompts: [
-    "What does a reply cost?",
-    "Why would an app do this?",
-    "How is a watch verified?",
-  ],
   replies: {
     cost: "A reply costs 10 credits. One sponsored message earns 40, so a single watch covers four replies. This demo has no subscription and no payment.",
     why: "Inference has a real cost. A sponsor can cover it when the person chooses to watch. The exchange stays visible: sponsor, duration, reward, and every movement in the ledger.",
@@ -54,7 +49,6 @@ const $ = (selector) => document.querySelector(selector);
 const el = {
   messages: $("#messages"),
   thread: $("#thread"),
-  starters: $("#starters"),
   announcer: $("#announcer"),
   composer: $("#composer"),
   message: $("#message"),
@@ -165,29 +159,9 @@ function createMessageRow(message) {
   return row;
 }
 
-function renderStarters() {
-  if (el.starters.children.length === 0) {
-    const heading = document.createElement("p");
-    heading.textContent = "Try a question";
-    el.starters.append(heading);
-    for (const prompt of COPY.prompts) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = prompt;
-      button.addEventListener("click", () => send(prompt));
-      el.starters.append(button);
-    }
-  }
-  const locked = ledger.balance < MESSAGE_COST;
-  for (const button of el.starters.querySelectorAll("button"))
-    button.disabled = locked;
-}
-
 function renderThread({ scroll = false } = {}) {
   el.thread.textContent = "";
   for (const message of messages) el.thread.append(createMessageRow(message));
-  el.starters.hidden = messages.some((message) => message.role === "user");
-  renderStarters();
   if (scroll) scrollChat();
 }
 
@@ -210,7 +184,6 @@ function renderBalance() {
   el.message.disabled = locked;
   el.message.placeholder = locked ? COPY.placeholderLocked : COPY.placeholder;
   updateSend();
-  renderStarters();
 }
 
 function renderTrace() {
