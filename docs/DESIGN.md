@@ -4,7 +4,7 @@
 
 An ad funded app usually asks for trust it has not earned. The exchange is
 hidden in a subscription page, a token counter or a vague "free" tier. Ad
-Harness makes one exchange visible: this sponsor, this duration, this reward,
+Underwrite makes one exchange visible: this sponsor, this duration, this reward,
 this receipt, this ledger.
 
 The design rule is **show the operation and its result before adding
@@ -35,6 +35,14 @@ in context.
 The first view at desktop size contains the headline, the sample exchange, the
 inline sponsored card, the credit chip and the composer. The page does not
 require an introductory read.
+
+## Host previews
+
+`hosts.html` is a separate illustration, not the demo. It places the same
+placement in Claude, ChatGPT and Gemini style shells and pairs a Before media
+card with an After host-native card. The page uses illustrative chrome, not
+official logos, and discloses the trademarks. The working component and reward
+flow stay on `index.html`.
 
 ## The sponsor film
 
@@ -73,9 +81,9 @@ rejection. The sponsor film uses the same warm family.
 
 ## Copy
 
-- The headline is **Attention, settled.**
+- The headline is **Attention, underwritten.**
 - The task line is **Watch a sponsored message. Earn free credits for Sage Mini.**
-- The component is **adharness** in the wordmark and **Ad Harness** in prose.
+- The component is **underwrite** in the wordmark and **Underwrite** in prose.
 - The host app is **Sage**, model **Sage Mini**, labelled `Mini · ad supported`.
 - The sponsor is **Still**, a fictional product.
 - The reward is **40 free credits** for an 8 second inline watch; the reply is

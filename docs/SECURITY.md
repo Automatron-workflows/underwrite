@@ -1,6 +1,6 @@
 # Security
 
-Ad Harness is an experimental reference with no production support or
+Underwrite is an experimental reference with no production support or
 independent security audit. The current maintained code is the default branch.
 This document describes the trust boundaries and the gaps a host must close.
 
@@ -15,7 +15,7 @@ This document describes the trust boundaries and the gaps a host must close.
 | Ledger                  | Host      | The demo ledger is in memory. Production needs a transactional store. |
 | Ad network proof        | Missing   | A real deployment must add one.                                       |
 
-## What the harness checks
+## What Underwrite checks
 
 - The claim belongs to the published ad and reward.
 - The session id and nonce have a bounded shape.
@@ -91,7 +91,7 @@ across sessions.
 
 The host supplies the creative. A real ad network must review it. The component
 labels the surface as sponsored and keeps the sponsor visible. Do not use the
-harness to disguise an ad as a message from the model.
+component to disguise an ad as a message from the model.
 
 ### An injected creative
 

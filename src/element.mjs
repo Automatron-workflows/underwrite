@@ -1,7 +1,7 @@
-import { AD_HARNESS_VERSION } from "./protocol.mjs";
+import { UNDERWRITE_VERSION } from "./protocol.mjs";
 
 /**
- * <ad-harness> is the portable attention component.
+ * <underwrite-card> is the portable attention component.
  *
  * It owns the watch contract: a visible, pausable, monotonic playback window
  * that produces a completion claim. It does not own the balance, the receipt
@@ -23,15 +23,15 @@ const PROGRESS_EMIT_MS = 250;
 const template = `
 <style>
   :host {
-    --ah-accent: #e9d5a7;
-    --ah-ink: #f4f2ec;
-    --ah-muted: #a5a49d;
-    --ah-surface: #131312;
-    --ah-line: #2f2f2c;
+    --uw-accent: #e9d5a7;
+    --uw-ink: #f4f2ec;
+    --uw-muted: #a5a49d;
+    --uw-surface: #131312;
+    --uw-line: #2f2f2c;
     display: block;
     min-width: 0;
-    color: var(--ah-ink);
-    font-family: var(--ah-font, "Helvetica Neue", Arial, sans-serif);
+    color: var(--uw-ink);
+    font-family: var(--uw-font, "Helvetica Neue", Arial, sans-serif);
     -webkit-font-smoothing: antialiased;
     container-type: inline-size;
   }
@@ -40,12 +40,12 @@ const template = `
   .frame {
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--ah-line);
+    border: 1px solid var(--uw-line);
     border-radius: 14px;
-    background: var(--ah-surface);
+    background: var(--uw-surface);
     isolation: isolate;
   }
-  .stage { position: relative; aspect-ratio: var(--ah-stage-ratio, 4 / 3); overflow: hidden; }
+  .stage { position: relative; aspect-ratio: var(--uw-stage-ratio, 4 / 3); overflow: hidden; }
   ::slotted(*) {
     position: absolute;
     inset: 0;
@@ -78,7 +78,7 @@ const template = `
     height: 54px;
     border: 1px solid #ffffff2e;
     border-radius: 50%;
-    color: var(--ah-accent);
+    color: var(--uw-accent);
     font: 500 12px/1 ui-monospace, Menlo, monospace;
     letter-spacing: .12em;
   }
@@ -104,7 +104,7 @@ const template = `
     align-items: center;
     gap: 12px;
     padding: 14px 16px;
-    padding-right: var(--ah-chrome-right, 16px);
+    padding-right: var(--uw-chrome-right, 16px);
     pointer-events: none;
     font: 500 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
     letter-spacing: .1em;
@@ -137,20 +137,20 @@ const template = `
     font: 500 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--ah-accent);
+    color: var(--uw-accent);
   }
   .reward {
     margin: 0;
     font: 500 34px/1 "Helvetica Neue", Arial, sans-serif;
     letter-spacing: -.055em;
-    color: var(--ah-ink);
+    color: var(--uw-ink);
   }
   .idle-title {
     max-width: 19ch;
     margin: 0;
     font: 500 22px/1.08 "Helvetica Neue", Arial, sans-serif;
     letter-spacing: -.035em;
-    color: var(--ah-ink);
+    color: var(--uw-ink);
     text-wrap: balance;
     text-shadow: 0 1px 10px #0009;
   }
@@ -158,7 +158,7 @@ const template = `
     margin-left: 6px;
     font-size: 12px;
     letter-spacing: 0;
-    color: var(--ah-muted);
+    color: var(--uw-muted);
   }
   .primary {
     display: inline-flex;
@@ -170,7 +170,7 @@ const template = `
     padding: 13px 16px;
     border: 0;
     border-radius: 999px;
-    background: var(--ah-accent);
+    background: var(--uw-accent);
     color: #17150f;
     font-weight: 600;
     font-size: 14px;
@@ -212,7 +212,7 @@ const template = `
     border: 1px solid #ffffff3d;
     border-radius: 50%;
     background: #111111a6;
-    color: var(--ah-ink);
+    color: var(--uw-ink);
     cursor: pointer;
   }
   .icon:hover { background: #ffffff1f; }
@@ -236,7 +236,7 @@ const template = `
     width: 0;
     height: 100%;
     border-radius: inherit;
-    background: var(--ah-accent);
+    background: var(--uw-accent);
   }
   .check {
     display: grid;
@@ -247,7 +247,7 @@ const template = `
     border: 1px solid #ffffff3a;
     border-radius: 50%;
     background: #ffffff0f;
-    color: var(--ah-accent);
+    color: var(--uw-accent);
   }
   .check svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
   .complete .reward { font-size: 30px; }
@@ -280,7 +280,7 @@ const template = `
     white-space: nowrap;
   }
   .hidden { display: none !important; }
-  button:focus-visible { outline: 2px solid var(--ah-accent); outline-offset: 3px; }
+  button:focus-visible { outline: 2px solid var(--uw-accent); outline-offset: 3px; }
   @container (max-width: 320px) {
     .chrome { padding: 12px 13px; }
     .idle, .paused, .complete { padding: 14px; }
@@ -385,7 +385,7 @@ function emit(element, name, detail) {
   );
 }
 
-export class AdHarnessElement extends HTMLElementBase {
+export class UnderwriteElement extends HTMLElementBase {
   /** @type {"idle" | "playing" | "paused" | "completed"} */
   #status = "idle";
   #elapsedMs = 0;
@@ -416,7 +416,7 @@ export class AdHarnessElement extends HTMLElementBase {
      */
     const query = (selector) => {
       const found = this.#root.querySelector(selector);
-      if (!found) throw new Error(`ad-harness template is missing ${selector}`);
+      if (!found) throw new Error(`underwrite template is missing ${selector}`);
       return /** @type {T} */ (found);
     };
     this.#refs = {
@@ -561,7 +561,7 @@ export class AdHarnessElement extends HTMLElementBase {
       });
       this.#observer.observe(this);
     }
-    emit(this, "adharness:ready", {
+    emit(this, "underwrite:ready", {
       adId: this.adId,
       durationMs: this.durationMs,
       reward: this.reward,
@@ -600,7 +600,7 @@ export class AdHarnessElement extends HTMLElementBase {
     this.#announce(
       `Sponsored message started. ${Math.round(this.durationMs / 1000)} seconds.`,
     );
-    emit(this, "adharness:started", {
+    emit(this, "underwrite:started", {
       adId: this.adId,
       durationMs: this.durationMs,
       reward: this.reward,
@@ -629,7 +629,7 @@ export class AdHarnessElement extends HTMLElementBase {
         ? "Paused. The sponsored message clock stopped."
         : "Paused.",
     );
-    emit(this, "adharness:paused", {
+    emit(this, "underwrite:paused", {
       adId: this.adId,
       elapsedMs: this.elapsedMs,
       reason,
@@ -642,7 +642,7 @@ export class AdHarnessElement extends HTMLElementBase {
     this.#lastFrame = performance.now();
     this.#setStatus("playing");
     this.#announce("Resumed.");
-    emit(this, "adharness:resumed", {
+    emit(this, "underwrite:resumed", {
       adId: this.adId,
       elapsedMs: this.elapsedMs,
     });
@@ -658,7 +658,7 @@ export class AdHarnessElement extends HTMLElementBase {
     this.#setStatus("idle");
     this.#paintProgress();
     this.#refs.live.textContent = "";
-    emit(this, "adharness:reset", { adId: this.adId });
+    emit(this, "underwrite:reset", { adId: this.adId });
   }
 
   #tick = () => {
@@ -679,7 +679,7 @@ export class AdHarnessElement extends HTMLElementBase {
     }
     if (now - this.#lastEmit >= PROGRESS_EMIT_MS) {
       this.#lastEmit = now;
-      emit(this, "adharness:progress", {
+      emit(this, "underwrite:progress", {
         adId: this.adId,
         elapsedMs: this.elapsedMs,
         durationMs: this.durationMs,
@@ -698,7 +698,7 @@ export class AdHarnessElement extends HTMLElementBase {
     this.#cancel();
     this.#status = "completed";
     this.#claim = {
-      version: AD_HARNESS_VERSION,
+      version: UNDERWRITE_VERSION,
       adId: this.adId,
       sessionId: this.#sessionId,
       startedAt: this.#startedAt,
@@ -710,7 +710,7 @@ export class AdHarnessElement extends HTMLElementBase {
     this.#setStatus("completed");
     this.#paintProgress();
     this.#announce(`Watched. ${this.reward} credits ready for verification.`);
-    emit(this, "adharness:completed", { claim: this.#claim });
+    emit(this, "underwrite:completed", { claim: this.#claim });
   }
 
   #onVisibility = () => {
@@ -778,8 +778,8 @@ export class AdHarnessElement extends HTMLElementBase {
   }
 }
 
-export function registerAdHarness() {
+export function registerUnderwrite() {
   if (typeof customElements === "undefined") return;
-  if (!customElements.get("ad-harness"))
-    customElements.define("ad-harness", AdHarnessElement);
+  if (!customElements.get("underwrite-card"))
+    customElements.define("underwrite-card", UnderwriteElement);
 }

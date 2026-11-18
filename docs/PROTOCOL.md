@@ -126,5 +126,5 @@ the contract, not a visual nicety.
 
 ## Versioning
 
-`AD_HARNESS_VERSION` is `1`. A breaking claim or receipt shape requires a new
+`UNDERWRITE_VERSION` is `1`. A breaking claim or receipt shape requires a new
 version and an explicit migration. Do not silently accept an older shape.

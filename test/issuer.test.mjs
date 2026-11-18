@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { stillAd } from "../examples/still-ad.mjs";
-import { AD_HARNESS_VERSION, AdHarnessError } from "../src/protocol.mjs";
+import { UNDERWRITE_VERSION, UnderwriteError } from "../src/protocol.mjs";
 import {
   DEMO_ISSUER_SECRET,
   issueReceipt,
@@ -9,12 +9,12 @@ import {
 } from "../src/issuer.mjs";
 
 const isCode = (code) => (error) =>
-  error instanceof AdHarnessError && error.code === code;
+  error instanceof UnderwriteError && error.code === code;
 
 function claim(overrides = {}) {
   const now = Date.now();
   return {
-    version: AD_HARNESS_VERSION,
+    version: UNDERWRITE_VERSION,
     adId: stillAd.id,
     sessionId: "ses_test_session_01",
     startedAt: now - 15_000,

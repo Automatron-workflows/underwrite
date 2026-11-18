@@ -1,4 +1,4 @@
-# Working on Ad Harness
+# Working on Underwrite
 
 Read [README.md](README.md) for the product and [docs/PROTOCOL.md](docs/PROTOCOL.md)
 before changing the claim or ledger rules. The repository is self contained. No
@@ -6,7 +6,7 @@ account, ad network, paid model, API key or hosted backend is needed.
 
 ## Scope and evidence
 
-Ad Harness is a working reference for inline sponsored credits in LLM chat. A
+Underwrite is a working reference for inline sponsored credits in LLM chat. A
 labelled card sits between turns. The component owns a visible, pausable watch
 and produces a completion claim. The host owns the conversation, the model
 scope, verification, receipts and the credit ledger. The demo is one host.
@@ -85,7 +85,7 @@ labelled and readable. The Still sponsor is fictional. The demo uses an 8 second
 explicit watch; do not add autoplay with credits.
 
 The component should remain themeable through CSS custom properties, including
-`--ah-accent`, `--ah-stage-ratio` and `--ah-chrome-right`. Do not bake the demo
+`--uw-accent`, `--uw-stage-ratio` and `--uw-chrome-right`. Do not bake the demo
 page's layout into the shadow DOM beyond the component frame.
 
 Use no dash punctuation in prose. Preserve syntax in commands, identifiers and
@@ -95,8 +95,24 @@ must survive reduced motion and a static frame.
 For UI changes, run `npm run dev` and inspect desktop and 390 pixel layouts,
 the inline placement, the model scoped credit chip, keyboard focus, pause and
 resume, hidden or offscreen pause, completion, receipt replay, reset, the
-transcript, How it works and the Developer dialog. State explicitly when a
-browser check was unavailable.
+transcript, How it works, the Developer dialog and the host previews. State
+explicitly when a browser check was unavailable.
+
+## Host previews
+
+`hosts.html`, `hosts.css` and `hosts.mjs` are an authored illustration, not the
+working component. The working component and reward flow stay on `index.html`.
+
+- Keep the page labelled **Illustrative** and keep the trademark disclosure.
+- Do not add official host logos or imply an integration, partnership or
+  endorsement.
+- Keep the host rail, the Before and After comparison and the card states
+  keyboard reachable.
+- The Before card is the full media card. The After card is a compact host-native
+  card. Do not let the comparison turn into a product claim the working demo
+  cannot support.
+- The browser check covers the host rail, the comparison and the 390 pixel
+  layout. Keep those assertions.
 
 ## Publication
 

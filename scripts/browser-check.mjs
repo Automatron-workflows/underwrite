@@ -34,19 +34,19 @@ const text = async (selector) =>
   (await page.locator(selector).textContent())?.trim();
 const adStatus = () =>
   page.evaluate(() =>
-    document.querySelector("ad-harness")?.getAttribute("data-status"),
+    document.querySelector("underwrite-card")?.getAttribute("data-status"),
   );
 const adAction = (action) =>
   page.evaluate((name) => {
     document
-      .querySelector("ad-harness")
+      .querySelector("underwrite-card")
       ?.shadowRoot?.querySelector(`[data-action=${name}]`)
       ?.click();
   }, action);
 
 try {
   await page.goto(server.url, { waitUntil: "domcontentloaded" });
-  await page.locator(".ah-experience").waitFor({ timeout: 20_000 });
+  await page.locator(".uw-experience").waitFor({ timeout: 20_000 });
   await page.waitForFunction(
     () => document.querySelector("#balance")?.textContent?.trim() === "10",
   );
@@ -56,16 +56,16 @@ try {
   assert.equal(await page.locator("#replay").isDisabled(), true);
   assert.equal(await page.locator("#copy").isDisabled(), true);
   assert.match(await text("#messages"), /A reply costs 10 credits/);
-  assert.match(await text(".ah-host"), /Mini · ad supported/);
+  assert.match(await text(".uw-host"), /Mini · ad supported/);
   const firstView = await page.evaluate(() => ({
     demoTop: document.querySelector("#demo")?.getBoundingClientRect().top,
     deviceVisible:
-      (document.querySelector(".ah-device")?.getBoundingClientRect().top ??
+      (document.querySelector(".uw-device")?.getBoundingClientRect().top ??
         Infinity) < innerHeight,
-    intro: !!document.querySelector(".ah-lede, .ah-eyebrow, .ah-contract"),
-    inspectSection: !!document.querySelector("section.ah-inspect"),
-    inlineAd: !!document.querySelector("ad-harness")?.closest(".ah-log"),
-    rail: !!document.querySelector(".ah-rail"),
+    intro: !!document.querySelector(".uw-lede, .uw-eyebrow, .uw-contract"),
+    inspectSection: !!document.querySelector("section.uw-inspect"),
+    inlineAd: !!document.querySelector("underwrite-card")?.closest(".uw-log"),
+    rail: !!document.querySelector(".uw-rail"),
     thread: document.querySelector("#thread")?.children.length,
   }));
   assert.ok(firstView.demoTop < 400);
@@ -79,7 +79,7 @@ try {
     await page.evaluate(
       () =>
         !!document
-          .querySelector("ad-harness")
+          .querySelector("underwrite-card")
           ?.shadowRoot?.querySelector("[data-action=start]"),
     ),
     true,
@@ -103,7 +103,7 @@ try {
     const controls = [
       ...document.querySelectorAll("button, a, summary, input"),
     ];
-    const player = document.querySelector("ad-harness");
+    const player = document.querySelector("underwrite-card");
     if (player?.shadowRoot)
       controls.push(...player.shadowRoot.querySelectorAll("button"));
     return controls
@@ -141,12 +141,12 @@ try {
   await page.locator("#send").click();
   await page.waitForFunction(
     () =>
-      document.querySelector("ad-harness")?.getAttribute("data-status") ===
+      document.querySelector("underwrite-card")?.getAttribute("data-status") ===
       "playing",
   );
 
   await page.waitForFunction(
-    () => (document.querySelector("ad-harness")?.elapsedMs ?? 0) > 1_000,
+    () => (document.querySelector("underwrite-card")?.elapsedMs ?? 0) > 1_000,
     null,
     { timeout: 5_000 },
   );
@@ -176,7 +176,7 @@ try {
     return dialog?.open && Number(getComputedStyle(dialog).opacity) === 1;
   });
   assert.match(await text("#receipt"), /"receiptId": "rcpt_/);
-  assert.match(await text("#trace"), /adharness:completed/);
+  assert.match(await text("#trace"), /underwrite:completed/);
   await page.screenshot({ path: `${output}/desktop-developer.png` });
 
   // A replayed receipt must be visible as a rejection, not a second credit.
@@ -218,12 +218,12 @@ try {
   // Narrow layout: no horizontal overflow, the demo stays usable.
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: "domcontentloaded" });
-  await page.locator(".ah-experience").waitFor({ timeout: 20_000 });
+  await page.locator(".uw-experience").waitFor({ timeout: 20_000 });
   const mobile = await page.evaluate(() => ({
     width: document.documentElement.scrollWidth,
     viewport: innerWidth,
     demo: document.querySelector("#demo")?.getBoundingClientRect().width,
-    nav: Array.from(document.querySelectorAll(".ah-top-nav a")).map((link) => ({
+    nav: Array.from(document.querySelectorAll(".uw-top-nav a")).map((link) => ({
       label: link.textContent.trim(),
       display: getComputedStyle(link).display,
     })),
@@ -237,22 +237,100 @@ try {
 
   // Leaving the viewport pauses the clock. It does not auto resume.
   await page.setViewportSize({ width: 390, height: 320 });
-  await page.locator("ad-harness").scrollIntoViewIfNeeded();
+  await page.locator("underwrite-card").scrollIntoViewIfNeeded();
   await adAction("start");
   await page.waitForFunction(
     () =>
-      document.querySelector("ad-harness")?.getAttribute("data-status") ===
+      document.querySelector("underwrite-card")?.getAttribute("data-status") ===
       "playing",
   );
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForFunction(
     () =>
-      document.querySelector("ad-harness")?.getAttribute("data-status") ===
+      document.querySelector("underwrite-card")?.getAttribute("data-status") ===
       "paused",
     null,
     { timeout: 5_000 },
   );
   assert.equal(await adStatus(), "paused");
+
+  // Host previews: the same placement in Claude, ChatGPT and Gemini style shells.
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(`${server.url}hosts.html`, { waitUntil: "domcontentloaded" });
+  await page.locator(".host-shell").waitFor();
+  assert.equal(
+    await page
+      .locator('.host-rail [data-host="claude"]')
+      .getAttribute("aria-pressed"),
+    "true",
+  );
+  assert.equal(
+    await page.locator(".host-shell").getAttribute("data-host"),
+    "claude",
+  );
+  assert.match(await text("#host-caption"), /Claude native card/);
+  assert.match(await text(".host-native"), /A quieter way to start/);
+  await page.screenshot({ path: `${output}/hosts-desktop.png` });
+
+  await page.locator('.host-rail [data-host="chatgpt"]').click();
+  assert.equal(
+    await page.locator(".host-shell").getAttribute("data-host"),
+    "chatgpt",
+  );
+  assert.match(await text("#host-caption"), /ChatGPT native card/);
+  assert.equal(
+    await page
+      .locator('.host-rail [data-host="chatgpt"]')
+      .getAttribute("aria-pressed"),
+    "true",
+  );
+  assert.equal(
+    await page
+      .locator('.host-rail [data-host="claude"]')
+      .getAttribute("aria-pressed"),
+    "false",
+  );
+
+  await page.locator('.host-compare [data-view="before"]').click();
+  assert.match(await text("#host-caption"), /Before/);
+  assert.equal(
+    await page
+      .locator('.host-compare [data-view="before"]')
+      .getAttribute("aria-pressed"),
+    "true",
+  );
+  assert.equal(await page.locator(".host-generic").count(), 1);
+  assert.equal(await page.locator(".host-native").count(), 0);
+  await page.screenshot({ path: `${output}/hosts-before.png` });
+
+  await page.locator('.host-compare [data-view="after"]').click();
+  assert.equal(await page.locator(".host-native").count(), 1);
+  assert.equal(await page.locator(".host-generic").count(), 0);
+
+  await page.locator('.host-rail [data-host="gemini"]').click();
+  assert.equal(
+    await page.locator(".host-shell").getAttribute("data-host"),
+    "gemini",
+  );
+  assert.match(await text("#host-caption"), /Gemini native card/);
+  assert.equal(
+    await page
+      .locator('.host-rail [data-host="gemini"]')
+      .getAttribute("aria-pressed"),
+    "true",
+  );
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.locator(".host-shell").waitFor();
+  const hostMobile = await page.evaluate(() => ({
+    width: document.documentElement.scrollWidth,
+    viewport: innerWidth,
+    shell: document.querySelector(".host-shell")?.getBoundingClientRect().width,
+  }));
+  assert.equal(hostMobile.width, hostMobile.viewport);
+  assert.ok(hostMobile.shell <= hostMobile.viewport);
+  await page.screenshot({ path: `${output}/hosts-mobile.png` });
 
   assert.deepEqual(errors, []);
   assert.ok(network.length >= 1);
@@ -276,6 +354,9 @@ try {
       "explanation behind How it works",
       "leaving the viewport pauses",
       "390 pixel layout has no horizontal overflow",
+      "host previews for Claude, ChatGPT and Gemini",
+      "Before and After card comparison",
+      "host previews at 390 pixels",
     ],
     requests: network,
     errors,

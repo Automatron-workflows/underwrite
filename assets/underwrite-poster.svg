@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
-  <title id="title">Ad Harness</title>
-  <desc id="desc">A dark poster for Ad Harness with a rising warm sun, the words Attention, settled, and a four part credit meter.</desc>
+  <title id="title">Underwrite</title>
+  <desc id="desc">A dark poster for Underwrite with a rising warm sun, the words Attention, underwritten, and a four part credit meter.</desc>
   <defs>
     <radialGradient id="sun" cx="38%" cy="32%" r="72%">
       <stop offset="0%" stop-color="#f8ecc9"/>
@@ -30,7 +30,7 @@
   <g fill="#f3efe3" font-family="Schibsted Grotesk, Helvetica Neue, Arial, sans-serif">
     <text x="64" y="190" font-size="22" font-weight="500" letter-spacing="3" fill="#e9d5a7">SPONSORED CREDITS</text>
     <text x="64" y="330" font-size="104" font-weight="500" letter-spacing="-7">Attention,</text>
-    <text x="64" y="426" font-size="104" font-weight="500" letter-spacing="-7" fill="#b9b5a9">settled.</text>
+    <text x="64" y="426" font-size="104" font-weight="500" letter-spacing="-7" fill="#b9b5a9">underwritten.</text>
   </g>
 
   <g transform="translate(934 58)" fill="#f3efe3" font-family="Geist Mono, Menlo, Consolas, monospace">
@@ -48,7 +48,7 @@
       <rect x="116" width="50" height="5" rx="2.5" fill="#e9d5a7"/>
       <rect x="174" width="50" height="5" rx="2.5" fill="#e9d5a7"/>
     </g>
-    <text x="24" y="150" fill="#77766f" font-family="Geist Mono, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.4">15S WATCH · 4 REPLIES</text>
+    <text x="24" y="150" fill="#77766f" font-family="Geist Mono, Menlo, Consolas, monospace" font-size="9" letter-spacing="1.4">8S WATCH · 4 REPLIES</text>
   </g>
 
   <g transform="translate(64 646)" fill="#9e9d95" font-family="Geist Mono, Menlo, Consolas, monospace" font-size="10" letter-spacing="1.8">

@@ -1,6 +1,6 @@
 # Integration
 
-`<ad-harness>` is a framework independent custom element. It owns the watch. The
+`<underwrite-card>` is a framework independent custom element. It owns the watch. The
 host owns verification and credits.
 
 ## Install the source
@@ -9,8 +9,8 @@ The component is one module. Import it from this repository, or copy
 `src/element.mjs` and `src/protocol.mjs` into the host.
 
 ```js
-import { registerAdHarness } from "./src/element.mjs";
-registerAdHarness();
+import { registerUnderwrite } from "./src/element.mjs";
+registerUnderwrite();
 ```
 
 ## Inline placement
@@ -21,9 +21,14 @@ not inside a model answer:
 ```html
 <div class="conversation">
   <assistant-message>...</assistant-message>
-  <ad-harness ad-id="still-inline" sponsor="Still" duration="8" reward="40">
+  <underwrite-card
+    ad-id="still-inline"
+    sponsor="Still"
+    duration="8"
+    reward="40"
+  >
     <!-- brand logo, image or video -->
-  </ad-harness>
+  </underwrite-card>
   <assistant-message>...</assistant-message>
 </div>
 ```
@@ -35,12 +40,12 @@ example `Sage Mini`, in the host bar and the surrounding copy.
 The demo uses a wide stage inside the conversation:
 
 ```css
-.conversation ad-harness {
-  --ah-stage-ratio: 16 / 5;
+.conversation underwrite-card {
+  --uw-stage-ratio: 16 / 5;
 }
 @media (max-width: 640px) {
-  .conversation ad-harness {
-    --ah-stage-ratio: 16 / 9;
+  .conversation underwrite-card {
+    --uw-stage-ratio: 16 / 9;
   }
 }
 ```
@@ -53,7 +58,7 @@ sponsored node stable while the conversation appends.
 ## Mark up the slot
 
 ```html
-<ad-harness
+<underwrite-card
   ad-id="still-inline"
   sponsor="Still"
   title="A quieter way to start."
@@ -61,7 +66,7 @@ sponsored node stable while the conversation appends.
   reward="40"
 >
   <!-- the sponsor creative supplied by the ad network -->
-</ad-harness>
+</underwrite-card>
 ```
 
 The creative is optional. Without it, the component renders an honest fallback
@@ -74,13 +79,13 @@ typographic brand film. Do not inject arbitrary remote HTML into the slot.
 ## Listen for completion
 
 ```js
-const player = document.querySelector("ad-harness");
+const player = document.querySelector("underwrite-card");
 
-player.addEventListener("adharness:completed", async (event) => {
+player.addEventListener("underwrite:completed", async (event) => {
   const claim = event.detail.claim;
 
   // Production: send the claim to your server. Do not verify on the client.
-  const response = await fetch("/api/ad-harness/redeem", {
+  const response = await fetch("/api/underwrite/redeem", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ claim, sessionId: currentSession() }),
@@ -128,15 +133,15 @@ is inspectable. That is a demo choice, not the production recommendation.
 
 All events bubble and cross the shadow boundary. `detail` is a plain object.
 
-| Event                 | Detail                                      |
-| --------------------- | ------------------------------------------- |
-| `adharness:ready`     | `{ adId, durationMs, reward }`              |
-| `adharness:started`   | `{ adId, durationMs, reward, attempt }`     |
-| `adharness:progress`  | `{ adId, elapsedMs, durationMs, progress }` |
-| `adharness:paused`    | `{ adId, elapsedMs, reason }`               |
-| `adharness:resumed`   | `{ adId, elapsedMs }`                       |
-| `adharness:completed` | `{ claim }`                                 |
-| `adharness:reset`     | `{ adId }`                                  |
+| Event                  | Detail                                      |
+| ---------------------- | ------------------------------------------- |
+| `underwrite:ready`     | `{ adId, durationMs, reward }`              |
+| `underwrite:started`   | `{ adId, durationMs, reward, attempt }`     |
+| `underwrite:progress`  | `{ adId, elapsedMs, durationMs, progress }` |
+| `underwrite:paused`    | `{ adId, elapsedMs, reason }`               |
+| `underwrite:resumed`   | `{ adId, elapsedMs }`                       |
+| `underwrite:completed` | `{ claim }`                                 |
+| `underwrite:reset`     | `{ adId }`                                  |
 
 `reason` is `user`, `hidden`, `offscreen` or `disabled`.
 
@@ -163,18 +168,18 @@ not auto play.
 The shadow DOM consumes inherited custom properties:
 
 ```css
-ad-harness {
-  --ah-accent: #e9d5a7;
-  --ah-ink: #f4f2ec;
-  --ah-surface: #131312;
-  --ah-line: #2f2f2c;
-  --ah-stage-ratio: 16 / 10;
-  --ah-chrome-right: 52px;
-  --ah-font: "Helvetica Neue", Arial, sans-serif;
+underwrite-card {
+  --uw-accent: #e9d5a7;
+  --uw-ink: #f4f2ec;
+  --uw-surface: #131312;
+  --uw-line: #2f2f2c;
+  --uw-stage-ratio: 16 / 10;
+  --uw-chrome-right: 52px;
+  --uw-font: "Helvetica Neue", Arial, sans-serif;
 }
 ```
 
-`--ah-chrome-right` reserves space for a host close button. `--ah-stage-ratio`
+`--uw-chrome-right` reserves space for a host close button. `--uw-stage-ratio`
 changes the creative frame. Keep contrast and focus visible.
 
 ## React and other frameworks
@@ -191,10 +196,12 @@ useEffect(() => {
     const claim = (event as CustomEvent).detail.claim;
     void redeem(claim);
   };
-  player.addEventListener("adharness:completed", completed);
-  return () => player.removeEventListener("adharness:completed", completed);
+  player.addEventListener("underwrite:completed", completed);
+  return () => player.removeEventListener("underwrite:completed", completed);
 }, []);
-return <ad-harness ref={ref} ad-id="still-launch" duration="15" reward="40" />;
+return (
+  <underwrite-card ref={ref} ad-id="still-launch" duration="15" reward="40" />
+);
 ```
 
 ## Production verifier

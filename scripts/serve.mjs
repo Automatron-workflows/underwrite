@@ -66,6 +66,6 @@ if (
     root: ".",
     port: Number(process.env.PORT ?? 4173),
   });
-  process.stdout.write(`Ad Harness demo: ${server.url}\n`);
+  process.stdout.write(`Underwrite demo: ${server.url}\n`);
   process.stdout.write("Press Ctrl+C to stop.\n");
 }

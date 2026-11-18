@@ -1,23 +1,23 @@
 {
-  "name": "@automatron/ad-harness",
-  "version": "0.1.0",
-  "description": "A drop in sponsored credit component for LLM apps. Watch a short message, earn credits, see the ledger.",
+  "name": "@automatron/underwrite",
+  "version": "0.2.0",
+  "description": "An inline sponsored credit component for LLM chat. Watch a short sponsor card, earn model credits, inspect the single use receipt.",
   "private": true,
   "type": "module",
   "license": "MIT",
-  "homepage": "https://automatron-workflows.github.io/ad-harness/",
+  "homepage": "https://automatron-workflows.github.io/underwrite/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Automatron-workflows/ad-harness.git"
+    "url": "git+https://github.com/Automatron-workflows/underwrite.git"
   },
   "bugs": {
-    "url": "https://github.com/Automatron-workflows/ad-harness/issues"
+    "url": "https://github.com/Automatron-workflows/underwrite/issues"
   },
   "engines": {
     "node": ">=22.12"
   },
   "bin": {
-    "ad-harness": "./bin/ad-harness.mjs"
+    "underwrite": "./bin/underwrite.mjs"
   },
   "exports": {
     ".": "./src/index.mjs",
@@ -34,6 +34,9 @@
     "index.html",
     "styles.css",
     "app.mjs",
+    "hosts.html",
+    "hosts.css",
+    "hosts.mjs",
     "README.md",
     "AGENTS.md",
     "CHANGELOG.md",
@@ -49,9 +52,9 @@
     "test:browser": "node scripts/build-site.mjs && node scripts/browser-check.mjs",
     "check": "npm test && node scripts/check.mjs",
     "dev": "node scripts/serve.mjs",
-    "verify": "node bin/ad-harness.mjs verify",
-    "credit": "node bin/ad-harness.mjs credit",
-    "demo": "node bin/ad-harness.mjs demo",
+    "verify": "node bin/underwrite.mjs verify",
+    "credit": "node bin/underwrite.mjs credit",
+    "demo": "node bin/underwrite.mjs demo",
     "build:site": "node scripts/build-site.mjs"
   },
   "keywords": [
@@ -60,7 +63,9 @@
     "llm",
     "custom-element",
     "attention",
-    "sponsored-inference"
+    "sponsored-inference",
+    "underwriting",
+    "sponsored-access"
   ],
   "devDependencies": {
     "playwright-core": "1.65.1"

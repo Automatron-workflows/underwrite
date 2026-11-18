@@ -51,6 +51,15 @@ This is a recorded review, not a certification or a user study.
 | Six-item intro in the chat                                                     | Overshadowed the task.                                               | One sentence: a reply costs 10 credits; the sponsored card earns 40.                   |
 | Static explanatory footer                                                      | Long boundary text at the end of the page.                           | One concise boundary line; full boundary in How it works.                              |
 
+## Host previews
+
+The host page is a separate, authored comparison. It is reviewed for clarity, not
+as part of the working demo's task. It uses illustrative chrome, no official
+logos, and a visible trademark disclosure. The Before card is the Underwrite
+media card; the After card is a compact host-native card. The page does not
+claim an integration. The working component and reward flow remain on the demo.
+The host page is covered by the browser check at desktop and 390 pixels.
+
 ## What remains visible
 
 - The inline sponsored card and its transcript.

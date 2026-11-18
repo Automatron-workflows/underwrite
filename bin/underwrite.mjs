@@ -4,8 +4,8 @@ import { randomBytes } from "node:crypto";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  AD_HARNESS_VERSION,
-  AdHarnessError,
+  UNDERWRITE_VERSION,
+  UnderwriteError,
   assertValidClaim,
   createLedger,
   creditReceipt,
@@ -23,16 +23,16 @@ const pkg = JSON.parse(
   await readFile(new URL("../package.json", import.meta.url), "utf8"),
 );
 
-const usage = `ad-harness ${pkg.version}
+const usage = `underwrite ${pkg.version}
 
 Validate a sponsored watch, issue a single use receipt and move a credit ledger.
 No network, accounts or API keys are used.
 
 Usage:
-  ad-harness demo [--ad <file>] [--json]
-  ad-harness sample [--ad <file>] [--out <file>] [--json]
-  ad-harness verify <claim.json> [--ad <file>] [--now <timestamp>] [--json]
-  ad-harness credit <claim.json> [--ad <file>] [--balance <n>] [--max-ads <n>] [--json]
+  underwrite demo [--ad <file>] [--json]
+  underwrite sample [--ad <file>] [--out <file>] [--json]
+  underwrite verify <claim.json> [--ad <file>] [--now <timestamp>] [--json]
+  underwrite credit <claim.json> [--ad <file>] [--balance <n>] [--max-ads <n>] [--json]
 
 Commands:
   demo      Generate a fresh claim, verify it, sign a receipt and credit a ledger.
@@ -130,7 +130,7 @@ async function loadAd(path) {
  */
 function sampleClaim(ad, now = Date.now()) {
   return {
-    version: AD_HARNESS_VERSION,
+    version: UNDERWRITE_VERSION,
     adId: ad.id,
     sessionId: `ses_${randomBytes(12).toString("base64url")}`,
     startedAt: now - ad.durationMs,
@@ -203,7 +203,7 @@ async function main() {
 
   if (command === "verify") {
     const path = positionals[0];
-    if (!path) fail("verify needs a claim JSON file. Run ad-harness --help.");
+    if (!path) fail("verify needs a claim JSON file. Run underwrite --help.");
     const ad = await loadAd(flagValue(flags.ad, undefined));
     const claim = await readJson(path);
     const now = numberFlag(flags.now, Date.now());
@@ -211,7 +211,7 @@ async function main() {
       assertValidClaim(claim, ad, now);
     } catch (error) {
       const code =
-        error instanceof AdHarnessError ? error.code : "claim_invalid";
+        error instanceof UnderwriteError ? error.code : "claim_invalid";
       const message =
         error instanceof Error
           ? error.message
@@ -242,7 +242,7 @@ async function main() {
 
   if (command === "credit") {
     const path = positionals[0];
-    if (!path) fail("credit needs a claim JSON file. Run ad-harness --help.");
+    if (!path) fail("credit needs a claim JSON file. Run underwrite --help.");
     const ad = await loadAd(flagValue(flags.ad, undefined));
     const claim = await readJson(path);
     const balance = numberFlag(flags.balance, 10);
@@ -268,7 +268,7 @@ async function main() {
       );
     } catch (error) {
       const code =
-        error instanceof AdHarnessError ? error.code : "claim_invalid";
+        error instanceof UnderwriteError ? error.code : "claim_invalid";
       const message =
         error instanceof Error
           ? error.message
@@ -283,7 +283,7 @@ async function main() {
     return;
   }
 
-  fail(`Unknown command: ${command}. Run ad-harness --help.`);
+  fail(`Unknown command: ${command}. Run underwrite --help.`);
 }
 
 main().catch((error) => {

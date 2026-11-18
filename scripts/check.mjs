@@ -2,8 +2,11 @@ import { readFile, stat } from "node:fs/promises";
 
 const required = [
   "index.html",
+  "hosts.html",
   "styles.css",
+  "hosts.css",
   "app.mjs",
+  "hosts.mjs",
   "src/index.mjs",
   "src/protocol.mjs",
   "src/issuer.mjs",
@@ -11,7 +14,9 @@ const required = [
   "examples/ad.json",
   "examples/still-ad.mjs",
   "assets/mark.svg",
-  "assets/ad-harness-og.png",
+  "assets/underwrite-og.png",
+  "assets/demo.png",
+  "assets/hosts.png",
 ];
 
 const failures = [];
@@ -30,6 +35,7 @@ if (Object.keys(packageJson.dependencies ?? {}).length > 0)
 
 const sources = [
   "app.mjs",
+  "hosts.mjs",
   "src/protocol.mjs",
   "src/issuer.mjs",
   "src/element.mjs",
@@ -56,8 +62,8 @@ for (const file of sources) {
 }
 
 const html = await readFile("index.html", "utf8");
-if (!html.includes("<ad-harness"))
-  failures.push("index.html does not mount <ad-harness>.");
+if (!html.includes("<underwrite-card"))
+  failures.push("index.html does not mount <underwrite-card>.");
 if (!html.includes("connect-src 'none'"))
   failures.push("index.html must keep connect-src 'none' in its CSP.");
 if (!html.includes("Content-Security-Policy"))
@@ -65,10 +71,20 @@ if (!html.includes("Content-Security-Policy"))
 if (!html.includes('lang="en"'))
   failures.push("index.html must declare its language.");
 
+const hosts = await readFile("hosts.html", "utf8");
+if (!hosts.includes("connect-src 'none'"))
+  failures.push("hosts.html must keep connect-src 'none' in its CSP.");
+if (!hosts.includes("Content-Security-Policy"))
+  failures.push("hosts.html must declare a Content Security Policy.");
+if (!hosts.includes("Illustrative host chrome"))
+  failures.push("hosts.html must disclose the illustrative host chrome.");
+if (!hosts.includes("trademarks"))
+  failures.push("hosts.html must disclose the host trademarks.");
+
 const css = await readFile("styles.css", "utf8");
-if (!css.includes(".ah-device"))
+if (!css.includes(".uw-device"))
   failures.push("styles.css is missing the demo layout.");
-if (!css.includes(".ah-film-sun"))
+if (!css.includes(".uw-film-sun"))
   failures.push("styles.css is missing the sponsor film.");
 
 if (failures.length > 0) {

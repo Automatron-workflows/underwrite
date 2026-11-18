@@ -1,6 +1,6 @@
 # Development
 
-Ad Harness is MIT licensed. These instructions describe development; the same
+Underwrite is MIT licensed. These instructions describe development; the same
 licence covers contributions unless a file says otherwise.
 
 Use Node 22.12 or newer (`.nvmrc` pins 24.16). The component, protocol, issuer,
@@ -54,7 +54,7 @@ Good first tasks include a server verifier example, a model scoped wallet, a
 session store contract, a package build, a reduced motion audit, a placement
 format fixture or a comprehension test plan.
 
-Use [Discussions](https://github.com/Automatron-workflows/ad-harness/discussions)
-for questions and [Issues](https://github.com/Automatron-workflows/ad-harness/issues)
+Use [Discussions](https://github.com/Automatron-workflows/underwrite/discussions)
+for questions and [Issues](https://github.com/Automatron-workflows/underwrite/issues)
 for a reproducible defect. Follow the [community guidelines](CODE_OF_CONDUCT.md)
 and [security policy](SECURITY.md).

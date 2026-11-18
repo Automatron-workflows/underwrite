@@ -8,14 +8,14 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 const run = promisify(execFile);
-const bin = fileURLToPath(new URL("../bin/ad-harness.mjs", import.meta.url));
+const bin = fileURLToPath(new URL("../bin/underwrite.mjs", import.meta.url));
 
 async function cli(args, cwd) {
   return run(process.execPath, [bin, ...args], { cwd, timeout: 20_000 });
 }
 
 test("the CLI samples, verifies and credits a fresh claim", async () => {
-  const directory = await mkdtemp(join(tmpdir(), "ad-harness-cli-"));
+  const directory = await mkdtemp(join(tmpdir(), "underwrite-cli-"));
   try {
     await cli(["sample", "--out", "claim.json"], directory);
     const claim = JSON.parse(
@@ -47,7 +47,7 @@ test("the CLI samples, verifies and credits a fresh claim", async () => {
 });
 
 test("the CLI refuses a short watch with a machine readable code", async () => {
-  const directory = await mkdtemp(join(tmpdir(), "ad-harness-cli-"));
+  const directory = await mkdtemp(join(tmpdir(), "underwrite-cli-"));
   try {
     const now = Date.now();
     await writeFile(
@@ -79,7 +79,7 @@ test("the CLI refuses a short watch with a machine readable code", async () => {
 
 test("the CLI prints help and version", async () => {
   const version = await cli(["--version"], process.cwd());
-  assert.equal(version.stdout.trim(), "0.1.0");
+  assert.equal(version.stdout.trim(), "0.2.0");
   const help = await cli(["--help"], process.cwd());
   assert.match(help.stdout, /Usage:/);
 });

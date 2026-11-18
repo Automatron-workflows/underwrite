@@ -1,4 +1,4 @@
-# Maintaining Ad Harness
+# Maintaining Underwrite
 
 ## Every change
 
@@ -24,8 +24,8 @@ npm run test:browser
 It checks the starting balance, the inline sponsored card, the model scoped
 credit chip, scripted reply, pause and resume, completion, single credit, receipt
 replay rejection, reset, the Developer and How it works dialogs, the skip link,
-dialog focus return, the visible control target floor, offscreen pause and the
-390 pixel layout. Screenshots and `summary.json` are written to
+dialog focus return, the visible control target floor, offscreen pause, the host
+previews and the 390 pixel layout. Screenshots and `summary.json` are written to
 `output/browser/`.
 
 The check needs Google Chrome. Set `CHROME_PATH` when Chrome is not in its
@@ -38,9 +38,10 @@ npm run build:site
 ```
 
 `scripts/build-site.mjs` is an explicit allowlist. The site contains only
-`index.html`, `styles.css`, `app.mjs`, `src/`, `examples/` and `assets/`. It
-does not copy the tests, docs, node modules or private data. Keep the allowlist
-current when adding a runtime module.
+`index.html`, `styles.css`, `app.mjs`, `hosts.html`, `hosts.css`, `hosts.mjs`,
+`src/`, `examples/` and `assets/`. It does not copy the tests, docs, node
+modules or private data. Keep the allowlist current when adding a runtime
+module.
 
 The page CSP keeps `connect-src 'none'`. The static check fails if a network
 primitive enters the demo or the CSP disappears.
@@ -59,8 +60,9 @@ browser workflows green. The deployed page is checked after a site change:
    `npm run build:site` from a clean checkout.
 3. Let the pages workflow deploy `main`.
 4. Open the deployed page. Check the CSP, the inline card, the model scoped
-   credit chip, the receipt, the replay rejection, the two dialogs and the
-   mobile layout.
+   credit chip, the receipt, the replay rejection, the two dialogs, the mobile
+   layout and the [host previews](hosts.html). The host page is illustrative,
+   not the working demo.
 5. Record the deployment result separately from any package release.
 
 For a future package release, bump the version, tag the commit without moving an
@@ -73,7 +75,7 @@ capture to a release. The demo issuer is public by design.
 Do not replace a published tag or release asset. Publish a patch release with
 the correction. If the site breaks, revert the site workflow or the last site
 commit and redeploy. Keep the public protocol immutable; a breaking claim or
-receipt shape needs a new `AD_HARNESS_VERSION`.
+receipt shape needs a new `UNDERWRITE_VERSION`.
 
 ## Open verification gaps
 

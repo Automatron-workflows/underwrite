@@ -1,12 +1,12 @@
 export {
-  AD_HARNESS_VERSION,
-  AdHarnessError,
+  UNDERWRITE_VERSION,
+  UnderwriteError,
   assertValidClaim,
   canSpend,
   createLedger,
   creditReceipt,
   formatCredits,
-  isAdHarnessError,
+  isUnderwriteError,
   rejectReceipt,
   remainingAds,
   spendCredits,
@@ -14,4 +14,4 @@ export {
 
 export { DEMO_ISSUER_SECRET, issueReceipt, verifyReceipt } from "./issuer.mjs";
 
-export { AdHarnessElement, registerAdHarness } from "./element.mjs";
+export { UnderwriteElement, registerUnderwrite } from "./element.mjs";

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="Underwrite host previews: the same inline sponsored placement in Claude, ChatGPT and Gemini style shells. Illustrative host chrome, not official integrations."
+    />
+    <meta name="theme-color" content="#0b0b0a" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <title>Underwrite | Host previews</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Underwrite" />
+    <meta property="og:title" content="Underwrite | Host previews" />
+    <meta
+      property="og:description"
+      content="The same sponsored placement, shaped by the host. Claude, ChatGPT and Gemini style shells. Illustrative, not affiliated."
+    />
+    <meta
+      property="og:image"
+      content="https://automatron-workflows.github.io/underwrite/assets/underwrite-og.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://automatron-workflows.github.io/underwrite/assets/underwrite-og.png"
+    />
+    <link
+      rel="canonical"
+      href="https://automatron-workflows.github.io/underwrite/hosts.html"
+    />
+    <link rel="icon" href="assets/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="hosts.css" />
+    <script type="module" src="hosts.mjs"></script>
+  </head>
+  <body class="uw-experience host-experience">
+    <a class="uw-skip" href="#host-stage">Skip to the host preview</a>
+    <p
+      class="uw-sr-only"
+      id="host-announcer"
+      role="status"
+      aria-live="polite"
+    ></p>
+    <div class="uw-wrap">
+      <header class="uw-top">
+        <a class="uw-wordmark" href="./">
+          <span class="uw-mark" aria-hidden="true">u</span>
+          underwrite
+        </a>
+        <nav class="uw-top-nav" aria-label="Underwrite">
+          <a href="./">Working demo</a>
+          <a href="https://github.com/Automatron-workflows/underwrite"
+            >GitHub ↗</a
+          >
+        </nav>
+      </header>
+
+      <main>
+        <section class="host-hero" aria-labelledby="host-title">
+          <h1 id="host-title">One card. Three conversations.</h1>
+          <p class="host-lede">
+            The same sponsored placement, shaped by the host. Illustrative host
+            chrome; the working component and reward flow are on the demo.
+          </p>
+        </section>
+
+        <section class="host-showcase" aria-labelledby="host-preview-title">
+          <h2 class="uw-sr-only" id="host-preview-title">Host previews</h2>
+          <div class="host-controls">
+            <div
+              class="host-rail"
+              role="group"
+              aria-label="Choose a host style"
+            >
+              <button type="button" data-host="claude" aria-pressed="true">
+                <span
+                  class="host-dot"
+                  data-host-dot="claude"
+                  aria-hidden="true"
+                ></span>
+                Claude
+              </button>
+              <button type="button" data-host="chatgpt" aria-pressed="false">
+                <span
+                  class="host-dot"
+                  data-host-dot="chatgpt"
+                  aria-hidden="true"
+                ></span>
+                ChatGPT
+              </button>
+              <button type="button" data-host="gemini" aria-pressed="false">
+                <span
+                  class="host-dot"
+                  data-host-dot="gemini"
+                  aria-hidden="true"
+                ></span>
+                Gemini
+              </button>
+            </div>
+            <div
+              class="host-compare"
+              role="group"
+              aria-label="Card style comparison"
+            >
+              <button type="button" data-view="before" aria-pressed="false">
+                Before
+              </button>
+              <button type="button" data-view="after" aria-pressed="true">
+                After
+              </button>
+            </div>
+          </div>
+          <p class="host-caption" id="host-caption"></p>
+          <div
+            class="host-stage"
+            id="host-stage"
+            role="region"
+            tabindex="-1"
+            aria-label="Illustrative host preview"
+          ></div>
+          <noscript>
+            <p class="host-noscript">
+              Enable JavaScript to switch between the illustrative host
+              previews.
+            </p>
+          </noscript>
+        </section>
+
+        <section class="host-contract" aria-labelledby="host-contract-title">
+          <h2 id="host-contract-title">What stays. What adapts.</h2>
+          <div class="host-contract-grid">
+            <div>
+              <h3>Stays</h3>
+              <p>
+                The sponsor label, the 8 second watch, the 40 free credits, the
+                transcript and the single use receipt. The host does not rewrite
+                the offer.
+              </p>
+            </div>
+            <div>
+              <h3>Adapts</h3>
+              <p>
+                Surface, typography, radius, density, action treatment and
+                placement width. The same card can be a media card or a compact
+                brand suggestion.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="uw-footer host-footer">
+        <p class="uw-footer-note">
+          Illustrative host chrome. Not affiliated with Anthropic, OpenAI or
+          Google. Claude, ChatGPT and Gemini are trademarks of their owners. The
+          sponsor and credits are fictional.
+        </p>
+        <nav class="uw-footer-nav" aria-label="Underwrite">
+          <a href="./">Working demo</a>
+          <a
+            href="https://github.com/Automatron-workflows/underwrite/blob/main/docs/PLACEMENTS.md"
+            >Placement rules</a
+          >
+          <a href="https://github.com/Automatron-workflows/underwrite"
+            >GitHub ↗</a
+          >
+          <span>Automatron · MIT</span>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>

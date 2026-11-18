@@ -1,5 +1,5 @@
 import { stillAd } from "./examples/still-ad.mjs";
-import { registerAdHarness } from "./src/element.mjs";
+import { registerUnderwrite } from "./src/element.mjs";
 import {
   assertValidClaim,
   createLedger,
@@ -15,7 +15,7 @@ import {
   verifyReceipt,
 } from "./src/issuer.mjs";
 
-registerAdHarness();
+registerUnderwrite();
 
 const START_BALANCE = 10;
 const MESSAGE_COST = 10;
@@ -38,7 +38,7 @@ const COPY = {
     verify:
       "The player emits a completion claim with the ad, session, elapsed time and a nonce. The host verifies it, issues a single use receipt, then credits the ledger. Short watches, stale claims, tampered signatures and duplicates are rejected before the balance moves.",
     fallback:
-      "This demo answers from a fixed script. It can explain the harness, but it is not a live model. The point is the contract around the ad, not the language model.",
+      "This demo answers from a fixed script. It can explain Underwrite, but it is not a live model. The point is the contract around the ad, not the language model.",
   },
   credited: "Receipt verified. Forty credits added.",
   cap: "Session limit reached. The player is closed for this demo.",
@@ -135,23 +135,23 @@ function scrollChat() {
 
 function createMessageRow(message) {
   const row = document.createElement("div");
-  row.className = `ah-msg ah-msg-${message.role}`;
+  row.className = `uw-msg uw-msg-${message.role}`;
   if (message.tone) row.dataset.tone = message.tone;
   if (message.role === "assistant") {
     const avatar = document.createElement("span");
-    avatar.className = "ah-avatar";
+    avatar.className = "uw-avatar";
     avatar.setAttribute("aria-hidden", "true");
     avatar.textContent = "s";
     row.append(avatar);
   }
   const bubble = document.createElement("div");
-  bubble.className = "ah-bubble";
+  bubble.className = "uw-bubble";
   const body = document.createElement("p");
   body.textContent = message.body;
   bubble.append(body);
   if (message.label) {
     const label = document.createElement("span");
-    label.className = "ah-label";
+    label.className = "uw-label";
     label.textContent = message.label;
     bubble.append(label);
   }
@@ -190,7 +190,7 @@ function renderTrace() {
   el.trace.textContent = "";
   if (trace.length === 0) {
     const empty = document.createElement("li");
-    empty.className = "ah-empty";
+    empty.className = "uw-empty";
     empty.textContent = "The trace starts when the player mounts.";
     el.trace.append(empty);
     return;
@@ -198,15 +198,15 @@ function renderTrace() {
   for (const entry of trace) {
     const row = document.createElement("li");
     const time = document.createElement("span");
-    time.className = "ah-trace-time";
+    time.className = "uw-trace-time";
     time.textContent = formatOffset(entry.offset);
     const type = document.createElement("span");
-    type.className = "ah-trace-type";
+    type.className = "uw-trace-type";
     type.textContent = entry.type;
     row.append(time, type);
     if (entry.detail) {
       const detail = document.createElement("span");
-      detail.className = "ah-trace-detail";
+      detail.className = "uw-trace-detail";
       detail.textContent = entry.detail;
       row.append(detail);
     }
@@ -231,10 +231,10 @@ function renderChrome() {
 
 function setFilm(progress, status) {
   const act = Math.min(3, Math.floor(progress * 4));
-  el.film.style.setProperty("--ah-progress", String(progress));
+  el.film.style.setProperty("--uw-progress", String(progress));
   el.film.dataset.act = String(act);
   el.film.dataset.status = status;
-  el.film.querySelectorAll(".ah-film-act").forEach((item, index) => {
+  el.film.querySelectorAll(".uw-film-act").forEach((item, index) => {
     item.dataset.active = String(index === act);
   });
 }
@@ -360,8 +360,8 @@ function reset() {
   el.player.reset();
   el.film.dataset.status = "idle";
   el.film.dataset.act = "0";
-  el.film.style.setProperty("--ah-progress", "0");
-  el.film.querySelectorAll(".ah-film-act").forEach((item, index) => {
+  el.film.style.setProperty("--uw-progress", "0");
+  el.film.querySelectorAll(".uw-film-act").forEach((item, index) => {
     item.dataset.active = String(index === 0);
   });
   el.replayNote.dataset.state = "idle";
@@ -424,40 +424,40 @@ for (const dialog of [el.developerDialog, el.howDialog]) {
   });
 }
 
-el.player.addEventListener("adharness:started", (event) => {
+el.player.addEventListener("underwrite:started", (event) => {
   milestone = -1;
   setFilm(0, "playing");
   addTrace(
-    "adharness:started",
+    "underwrite:started",
     `${Math.round(event.detail.durationMs / 1000)}s · +${event.detail.reward}`,
   );
 });
-el.player.addEventListener("adharness:progress", (event) => {
+el.player.addEventListener("underwrite:progress", (event) => {
   const detail = event.detail;
   setFilm(detail.progress, "playing");
   const bucket = Math.floor(detail.progress * 4) * 25;
   if (bucket > 0 && bucket > milestone) {
     milestone = bucket;
-    addTrace("adharness:progress", `${bucket}%`);
+    addTrace("underwrite:progress", `${bucket}%`);
   }
 });
-el.player.addEventListener("adharness:paused", (event) => {
+el.player.addEventListener("underwrite:paused", (event) => {
   const elapsed = Math.min(1, event.detail.elapsedMs / AD.durationMs);
   setFilm(elapsed, "paused");
-  addTrace("adharness:paused", event.detail.reason);
+  addTrace("underwrite:paused", event.detail.reason);
 });
-el.player.addEventListener("adharness:resumed", () => {
-  addTrace("adharness:resumed");
+el.player.addEventListener("underwrite:resumed", () => {
+  addTrace("underwrite:resumed");
 });
-el.player.addEventListener("adharness:completed", (event) => {
+el.player.addEventListener("underwrite:completed", (event) => {
   setFilm(1, "completed");
   addTrace(
-    "adharness:completed",
+    "underwrite:completed",
     `${event.detail.claim.elapsedMs}ms · nonce ${event.detail.claim.nonce.slice(0, 8)}`,
   );
   void onClaim(event.detail.claim);
 });
-el.player.addEventListener("adharness:reset", () => {
+el.player.addEventListener("underwrite:reset", () => {
   setFilm(0, "idle");
 });
 

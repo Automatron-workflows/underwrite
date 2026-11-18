@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { stillAd } from "../examples/still-ad.mjs";
 import {
-  AD_HARNESS_VERSION,
-  AdHarnessError,
+  UNDERWRITE_VERSION,
+  UnderwriteError,
   assertValidClaim,
   canSpend,
   createLedger,
@@ -16,12 +16,12 @@ import {
 } from "../src/protocol.mjs";
 
 const isCode = (code) => (error) =>
-  error instanceof AdHarnessError && error.code === code;
+  error instanceof UnderwriteError && error.code === code;
 
 function claim(overrides = {}) {
   const now = Date.now();
   return {
-    version: AD_HARNESS_VERSION,
+    version: UNDERWRITE_VERSION,
     adId: stillAd.id,
     sessionId: "ses_test_session_01",
     startedAt: now - 15_000,
@@ -197,7 +197,7 @@ test("spending is integer only and stops at the balance", () => {
 
 test("a rejection is visible without changing the balance", () => {
   const state = createLedger(20);
-  const error = new AdHarnessError(
+  const error = new UnderwriteError(
     "receipt_used",
     "This receipt has already been credited.",
   );

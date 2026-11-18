@@ -1,23 +1,28 @@
-# Ad Harness
+# Underwrite
 
-**Attention, settled.**
+**Attention, underwritten.**
 
 An inline sponsored credit component for LLM chat. The person watches a short
 sponsored card inside the conversation. The sponsor covers the inference. The
 credit chip and the receipt show exactly what moved.
 
-![The working demo: an inline sponsored card inside the chat, a model scoped credit chip and a verified receipt](assets/demo.png)
+![The working demo: an inline sponsored card inside the chat, a model scoped credit chip and the watch action](assets/demo.png)
 
 [Read the protocol](docs/PROTOCOL.md) · [Inline placements](docs/PLACEMENTS.md)
 · [Integrate the component](docs/INTEGRATION.md) · [Security boundary](docs/SECURITY.md)
 · [Functional Minimalism review](docs/FUNCTIONAL-MINIMALISM.md)
 · [Design notes](docs/DESIGN.md)
+· [Host previews](https://automatron-workflows.github.io/underwrite/hosts.html)
 
 ## What this is
 
-An LLM app can run out of credits. Ad Harness gives it one honest option: place
+An LLM app can run out of credits. Underwrite gives it one honest option: place
 a labelled sponsored card in the conversation, verify that it was watched, and
 grant a credit receipt the host can redeem exactly once.
+
+The name is the model. A sponsor underwrites the inference, and the person
+chooses whether to accept the placement. The card is the offer. The receipt is
+the proof.
 
 The demo is a working end to end reference. The card sits after a sample
 assistant answer and before the next turn. The sample exchange is authored; its
@@ -36,6 +41,18 @@ does not require an introductory read. The review and its limits are recorded in
 
 No account, API key, ad network or backend is connected.
 
+## Host previews
+
+The same placement, authored inside Claude, ChatGPT and Gemini style shells. The
+page pairs the full media card with a compact host-native card so the adaptation
+is visible. It is an illustration, not an integration, and uses no official
+logos.
+
+![Three illustrative host previews of the Underwrite card](assets/hosts.png)
+
+[Open the host previews](https://automatron-workflows.github.io/underwrite/hosts.html)
+· [Placement rules](docs/PLACEMENTS.md)
+
 ## Run it locally
 
 Node 22.12 or newer is required for development (`.nvmrc` pins 24.16).
@@ -51,7 +68,7 @@ fonts, images, scripts or requests.
 The same contract is available in the terminal:
 
 ```sh
-node bin/ad-harness.mjs demo
+node bin/underwrite.mjs demo
 ```
 
 ```text
@@ -68,14 +85,14 @@ The CLI uses the bundled 15 second Still definition. The browser demo uses an
 The CLI writes fresh claims, validates them and credits a fresh ledger:
 
 ```sh
-node bin/ad-harness.mjs sample --out claim.json
-node bin/ad-harness.mjs verify claim.json
-node bin/ad-harness.mjs credit claim.json
+node bin/underwrite.mjs sample --out claim.json
+node bin/underwrite.mjs verify claim.json
+node bin/underwrite.mjs credit claim.json
 ```
 
 ## One component
 
-`<ad-harness>` is a framework independent custom element. It owns attention. It
+`<underwrite-card>` is a framework independent custom element. It owns attention. It
 never changes a balance.
 
 Place it between turns, not inside a model answer:
@@ -83,7 +100,7 @@ Place it between turns, not inside a model answer:
 ```html
 <div class="conversation">
   <assistant-message>...</assistant-message>
-  <ad-harness
+  <underwrite-card
     ad-id="still-inline"
     sponsor="Still"
     title="A quieter way to start."
@@ -91,7 +108,7 @@ Place it between turns, not inside a model answer:
     reward="40"
   >
     <!-- a brand logo, image, video or other host supplied creative -->
-  </ad-harness>
+  </underwrite-card>
   <assistant-message>...</assistant-message>
 </div>
 ```
@@ -111,15 +128,15 @@ Properties: `status`, `elapsedMs`, `claim`, `durationMs`, `reward`.
 
 Events bubble and cross the shadow boundary:
 
-| Event                 | Detail                                      |
-| --------------------- | ------------------------------------------- |
-| `adharness:ready`     | `{ adId, durationMs, reward }`              |
-| `adharness:started`   | `{ adId, durationMs, reward, attempt }`     |
-| `adharness:progress`  | `{ adId, elapsedMs, durationMs, progress }` |
-| `adharness:paused`    | `{ adId, elapsedMs, reason }`               |
-| `adharness:resumed`   | `{ adId, elapsedMs }`                       |
-| `adharness:completed` | `{ claim }`                                 |
-| `adharness:reset`     | `{ adId }`                                  |
+| Event                  | Detail                                      |
+| ---------------------- | ------------------------------------------- |
+| `underwrite:ready`     | `{ adId, durationMs, reward }`              |
+| `underwrite:started`   | `{ adId, durationMs, reward, attempt }`     |
+| `underwrite:progress`  | `{ adId, elapsedMs, durationMs, progress }` |
+| `underwrite:paused`    | `{ adId, elapsedMs, reason }`               |
+| `underwrite:resumed`   | `{ adId, elapsedMs }`                       |
+| `underwrite:completed` | `{ claim }`                                 |
+| `underwrite:reset`     | `{ adId }`                                  |
 
 The clock pauses when the document is hidden, when the card leaves the
 conversation view and when the host disables the element. It does not auto
@@ -199,12 +216,15 @@ offscreen pause and the 390 pixel layout. It needs Google Chrome. Set
 ```text
 src/protocol.mjs       claim validation, receipts, ledger
 src/issuer.mjs         demo HMAC issuer and verifier
-src/element.mjs        <ad-harness>, shadow DOM, timer and events
+src/element.mjs        <underwrite-card>, shadow DOM, timer and events
 src/index.mjs          public exports
-bin/ad-harness.mjs     verify, credit, sample and demo commands
+bin/underwrite.mjs     verify, credit, sample and demo commands
 index.html             working host app, How it works and Developer dialogs
 app.mjs                demo host state and DOM
-styles.css             page and sponsor film styles
+styles.css             page, footer and sponsor film styles
+hosts.html             illustrative host previews, not the working demo
+hosts.css              host shells, Before and After cards
+hosts.mjs              host selector and comparison state
 examples/              bundled ad definition and sample claim source
 docs/                  protocol, placements, integration, security, design, roadmap
 test/                  Node tests
@@ -215,11 +235,12 @@ scripts/               dev server, static check, site build, browser check
 
 ## Status
 
-v0.1 is published as a public Automatron reference:
-https://automatron-workflows.github.io/ad-harness/. The source is public on
+v0.2 is published as a public Automatron reference:
+https://automatron-workflows.github.io/underwrite/. The source is public on
 GitHub. The npm package remains `private: true` until the owner chooses a
 distribution route.
 
 The next tests should run with a real ad network verifier, a server side cap,
 and a short user study of whether the exchange and the model scope are
-understood without opening How it works.
+understood without opening How it works. The host page is an authored
+illustration; the working component and reward flow stay on the demo.

@@ -1,6 +1,6 @@
 # Community guidelines
 
-Help people understand, try and improve Ad Harness. Be specific, respectful and
+Help people understand, try and improve Underwrite. Be specific, respectful and
 generous with context. Questions and reports of confusing behavior are welcome.
 
 Discuss ideas and evidence. Do not harass people, make personal attacks, publish

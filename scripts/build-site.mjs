@@ -9,7 +9,15 @@ await mkdir(resolve(output, "src"), { recursive: true });
 await mkdir(resolve(output, "examples"), { recursive: true });
 await mkdir(resolve(output, "assets"), { recursive: true });
 
-for (const file of ["index.html", "styles.css", "app.mjs", "LICENSE"]) {
+for (const file of [
+  "index.html",
+  "styles.css",
+  "app.mjs",
+  "LICENSE",
+  "hosts.html",
+  "hosts.css",
+  "hosts.mjs",
+]) {
   await copyFile(resolve(root, file), resolve(output, file));
 }
 for (const file of ["index.mjs", "protocol.mjs", "issuer.mjs", "element.mjs"]) {
@@ -21,7 +29,7 @@ for (const file of ["ad.json", "still-ad.mjs"]) {
     resolve(output, "examples", file),
   );
 }
-for (const file of ["mark.svg", "ad-harness-og.png", "ad-harness-poster.svg"]) {
+for (const file of ["mark.svg", "underwrite-og.png", "underwrite-poster.svg"]) {
   await copyFile(
     resolve(root, "assets", file),
     resolve(output, "assets", file),

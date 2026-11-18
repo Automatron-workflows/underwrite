@@ -1,4 +1,4 @@
-import { AD_HARNESS_VERSION, AdHarnessError } from "./protocol.mjs";
+import { UNDERWRITE_VERSION, UnderwriteError } from "./protocol.mjs";
 
 /**
  * The demo issuer runs in the browser so the whole contract can be inspected
@@ -6,7 +6,7 @@ import { AD_HARNESS_VERSION, AdHarnessError } from "./protocol.mjs";
  * a server, keys never reach the client, and the ad network signs the proof.
  * See docs/SECURITY.md.
  */
-export const DEMO_ISSUER_SECRET = "ad-harness-demo-issuer-v1-public";
+export const DEMO_ISSUER_SECRET = "underwrite-demo-issuer-v1-public";
 
 const encoder = new TextEncoder();
 const subtle = globalThis.crypto?.subtle;
@@ -82,7 +82,10 @@ function receiptBody(receipt) {
  */
 async function key(secret) {
   if (!subtle)
-    throw new AdHarnessError("signature_invalid", "Web Crypto is unavailable.");
+    throw new UnderwriteError(
+      "signature_invalid",
+      "Web Crypto is unavailable.",
+    );
   return subtle.importKey(
     "raw",
     encoder.encode(secret),
@@ -98,17 +101,17 @@ async function key(secret) {
  */
 function assertClaimShape(claim) {
   if (!claim || typeof claim !== "object")
-    throw new AdHarnessError(
+    throw new UnderwriteError(
       "claim_invalid",
       "A completion claim must be an object.",
     );
-  if (claim.version !== AD_HARNESS_VERSION)
-    throw new AdHarnessError(
+  if (claim.version !== UNDERWRITE_VERSION)
+    throw new UnderwriteError(
       "claim_invalid",
       "The completion claim version is not supported.",
     );
   if (!claim.adId || !claim.sessionId || !claim.nonce)
-    throw new AdHarnessError(
+    throw new UnderwriteError(
       "claim_invalid",
       "The completion claim is incomplete.",
     );
@@ -119,7 +122,7 @@ function assertClaimShape(claim) {
     !Number.isInteger(claim.reward) ||
     claim.reward <= 0
   )
-    throw new AdHarnessError(
+    throw new UnderwriteError(
       "claim_invalid",
       "The completion claim contains an invalid number.",
     );
@@ -140,7 +143,10 @@ export async function issueReceipt(
 ) {
   assertClaimShape(claim);
   if (!subtle)
-    throw new AdHarnessError("signature_invalid", "Web Crypto is unavailable.");
+    throw new UnderwriteError(
+      "signature_invalid",
+      "Web Crypto is unavailable.",
+    );
   const digest = await subtle.digest(
     "SHA-256",
     encoder.encode(claimBody(claim)),
@@ -170,16 +176,19 @@ export async function verifyReceipt(receipt, secret = DEMO_ISSUER_SECRET) {
     !receipt.signature ||
     !Number.isFinite(receipt.issuedAt)
   )
-    throw new AdHarnessError("receipt_invalid", "The receipt is incomplete.");
+    throw new UnderwriteError("receipt_invalid", "The receipt is incomplete.");
   if (!subtle)
-    throw new AdHarnessError("signature_invalid", "Web Crypto is unavailable.");
+    throw new UnderwriteError(
+      "signature_invalid",
+      "Web Crypto is unavailable.",
+    );
   const digest = await subtle.digest(
     "SHA-256",
     encoder.encode(claimBody(receipt)),
   );
   const expectedId = `rcpt_${base64url(new Uint8Array(digest)).slice(0, 22)}`;
   if (receipt.receiptId !== expectedId)
-    throw new AdHarnessError(
+    throw new UnderwriteError(
       "signature_invalid",
       "The receipt id does not match the claim.",
     );
@@ -195,7 +204,7 @@ export async function verifyReceipt(receipt, secret = DEMO_ISSUER_SECRET) {
     valid = false;
   }
   if (!valid)
-    throw new AdHarnessError(
+    throw new UnderwriteError(
       "signature_invalid",
       "The receipt signature is not valid.",
     );

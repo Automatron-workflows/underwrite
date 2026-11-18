@@ -1,6 +1,6 @@
 # Inline placements
 
-Ad Harness is a placement, not a chat message. It can be a brand suggestion, a
+Underwrite is a placement, not a chat message. It can be a brand suggestion, a
 logo card, an editorial image or a short video inside the conversation. It is
 always labelled and always supplied by the host. The model never writes or
 endorses it.
@@ -101,6 +101,14 @@ for those.
 - Reply cost: 10 credits.
 - Session cap: 3 watches.
 - Accounting: the credit chip, the chat receipt and the Developer trace.
+
+## Host previews
+
+[hosts.html](../hosts.html) is an authored illustration of the same placement in
+Claude, ChatGPT and Gemini style shells. It is not an integration and uses no
+official logos. It pairs the full media card (Before) with a compact host-native
+card (After) so the adaptation is visible. The working component and reward flow
+stay on the [demo](../index.html).
 
 ## Open questions
 

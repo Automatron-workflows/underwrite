@@ -18,8 +18,8 @@ pieces: a server verifier example, a model scoped wallet, a session store
 contract, a viewability policy, a consent record, a comprehension study and an
 accessibility review.
 
-Use [Discussions](https://github.com/Automatron-workflows/ad-harness/discussions)
-for questions and [Issues](https://github.com/Automatron-workflows/ad-harness/issues)
+Use [Discussions](https://github.com/Automatron-workflows/underwrite/discussions)
+for questions and [Issues](https://github.com/Automatron-workflows/underwrite/issues)
 for a reproducible defect. Include the Node version, the command, expected and
 actual output, and the smallest sanitized sample.
 

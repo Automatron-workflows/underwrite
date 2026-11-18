@@ -1,8 +1,16 @@
 # Roadmap
 
+## v0.2, current
+
+- Renamed the project to Underwrite and moved the public package, CLI, custom
+  element, events, exports and CSS prefix to the new name.
+- Added illustrative host previews for Claude, ChatGPT and Gemini style shells,
+  with a Before media card and an After host-native card.
+- Refreshed the demo screenshot, social image and poster.
+
 ## v0.1, shipped as a reference
 
-- Portable `<ad-harness>` custom element with a pausable watch, visibility and
+- Portable `<underwrite-card>` custom element with a pausable watch, visibility and
   offscreen pause, progress events and a completion claim.
 - Inline placement inside the conversation with an 8 second demo watch, a model
   scoped credit chip and a transcript.

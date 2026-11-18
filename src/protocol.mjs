@@ -1,5 +1,5 @@
 /**
- * Ad Harness protocol.
+ * Underwrite protocol.
  *
  * Portable and side effect free. The browser component, the demo host, the CLI
  * and the tests share these rules. The component produces a completion claim.
@@ -7,7 +7,7 @@
  * moves the credit ledger. Nothing here trusts a balance supplied by a client.
  */
 
-export const AD_HARNESS_VERSION = 1;
+export const UNDERWRITE_VERSION = 1;
 
 /**
  * @typedef {Object} AdDefinition
@@ -64,28 +64,28 @@ export const AD_HARNESS_VERSION = 1;
 /**
  * @typedef {"claim_invalid" | "signature_invalid" | "receipt_invalid" |
  *   "receipt_used" | "session_cap" | "reward_mismatch" | "ad_mismatch" |
- *   "insufficient_credits" | "invalid_amount"} HarnessErrorCode
+ *   "insufficient_credits" | "invalid_amount"} UnderwriteErrorCode
  */
 
-export class AdHarnessError extends Error {
+export class UnderwriteError extends Error {
   /**
-   * @param {HarnessErrorCode} code
+   * @param {UnderwriteErrorCode} code
    * @param {string} message
    */
   constructor(code, message) {
     super(message);
-    this.name = "AdHarnessError";
+    this.name = "UnderwriteError";
     this.code = code;
   }
 }
 
 /**
- * @param {HarnessErrorCode} code
+ * @param {UnderwriteErrorCode} code
  * @param {string} message
  * @returns {never}
  */
 function fail(code, message) {
-  throw new AdHarnessError(code, message);
+  throw new UnderwriteError(code, message);
 }
 
 const CLAIM_FRESHNESS_MS = 5 * 60 * 1000;
@@ -95,10 +95,10 @@ const NONCE = /^[a-zA-Z0-9_-]{16,64}$/;
 
 /**
  * @param {unknown} error
- * @returns {error is AdHarnessError}
+ * @returns {error is UnderwriteError}
  */
-export function isAdHarnessError(error) {
-  return error instanceof AdHarnessError;
+export function isUnderwriteError(error) {
+  return error instanceof UnderwriteError;
 }
 
 /**
@@ -112,7 +112,7 @@ export function isAdHarnessError(error) {
 export function assertValidClaim(claim, definition, now = Date.now()) {
   if (!claim || typeof claim !== "object")
     fail("claim_invalid", "A completion claim must be an object.");
-  if (claim.version !== AD_HARNESS_VERSION)
+  if (claim.version !== UNDERWRITE_VERSION)
     fail("claim_invalid", "The completion claim version is not supported.");
   if (claim.adId !== definition.id)
     fail("ad_mismatch", "The claim belongs to a different sponsored message.");
@@ -260,7 +260,7 @@ export function creditReceipt(state, receipt, definition, options) {
  * @returns {LedgerState}
  */
 export function rejectReceipt(state, error, at = Date.now()) {
-  const code = isAdHarnessError(error) ? error.code : "claim_invalid";
+  const code = isUnderwriteError(error) ? error.code : "claim_invalid";
   /** @type {LedgerEntry} */
   const entry = {
     id: `reject_${at}_${state.entries.length}`,
