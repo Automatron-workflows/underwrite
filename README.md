@@ -215,9 +215,10 @@ scripts/               dev server, static check, site build, browser check
 
 ## Status
 
-v0.1 is a local first reference. The package is `private: true` until the owner
-chooses a distribution route. The repository and GitHub Pages workflow are
-prepared but publication is a separate action.
+v0.1 is published as a public Automatron reference:
+https://automatron-workflows.github.io/ad-harness/. The source is public on
+GitHub. The npm package remains `private: true` until the owner chooses a
+distribution route.
 
 The next tests should run with a real ad network verifier, a server side cap,
 and a short user study of whether the exchange and the model scope are

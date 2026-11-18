@@ -47,24 +47,24 @@ primitive enters the demo or the CSP disappears.
 
 ## Publication
 
-The package is `private: true` until the owner intentionally chooses a
-distribution route. Do not publish a package name, a GitHub release or a Pages
-site without that decision.
+The source and GitHub Pages site are public by owner decision. The package
+remains `private: true`. Do not publish an npm package or a GitHub release asset
+without a new owner decision.
 
-When the owner approves a public release:
+The pages workflow deploys `_site/` on every push to `main`. Keep the test and
+browser workflows green. The deployed page is checked after a site change:
 
-1. Confirm `main` is green on the test and browser workflows.
-2. Bump the version in `package.json` and `CHANGELOG.md`.
-3. Run `npm ci --ignore-scripts`, `npm run check`, `npm run test:browser` and
+1. Confirm the test and browser workflows are green.
+2. Run `npm ci --ignore-scripts`, `npm run check`, `npm run test:browser` and
    `npm run build:site` from a clean checkout.
-4. Tag the commit without moving an existing tag.
-5. Create the GitHub release with the source and the built site notes. If a
-   package tarball is attached, include the matching lock file and license.
-6. Enable Pages for the repository. The workflow deploys `_site/`.
-7. Open the deployed page. Check the CSP, the ad component, the receipt, the
-   replay rejection and the mobile layout.
-8. Record the deployment result separately from the package release.
+3. Let the pages workflow deploy `main`.
+4. Open the deployed page. Check the CSP, the inline card, the model scoped
+   credit chip, the receipt, the replay rejection, the two dialogs and the
+   mobile layout.
+5. Record the deployment result separately from any package release.
 
+For a future package release, bump the version, tag the commit without moving an
+existing tag, and attach the source, lock file, license and built site notes.
 Never attach a real ad network key, advertiser contract, user data or private
 capture to a release. The demo issuer is public by design.
 

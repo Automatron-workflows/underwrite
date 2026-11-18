@@ -100,10 +100,10 @@ browser check was unavailable.
 
 ## Publication
 
-Use a branch and passing CI. The package is `private: true` until the owner
-chooses a distribution route. Never publish real ad claims, user data, keys or
-private captures. The GitHub Pages workflow is included; publishing the
-repository and enabling Pages is an owner action.
+Use a branch and passing CI. The source and GitHub Pages site are public by
+owner decision. The package remains `private: true`; do not publish an npm
+package or a GitHub release asset without a new owner decision. Never publish
+real ad claims, user data, keys or private captures.
 
 Build the deployable site with `npm run build:site`. It copies only the explicit
 static module graph in `scripts/build-site.mjs`. Keep that allowlist current.

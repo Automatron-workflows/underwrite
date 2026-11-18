@@ -5,6 +5,14 @@
   "private": true,
   "type": "module",
   "license": "MIT",
+  "homepage": "https://automatron-workflows.github.io/ad-harness/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Automatron-workflows/ad-harness.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Automatron-workflows/ad-harness/issues"
+  },
   "engines": {
     "node": ">=22.12"
   },
