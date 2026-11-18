@@ -43,10 +43,10 @@ No account, API key, ad network or backend is connected.
 
 ## Host previews
 
-The same placement, authored inside Claude, ChatGPT and Gemini style shells. The
-page pairs the full media card with a compact host-native card so the adaptation
-is visible. It is an illustration, not an integration, and uses no official
-logos.
+The same placement, illustrated inside Claude, ChatGPT and Gemini style shells.
+The page pairs the full media card with a compact host-native card so the
+adaptation is visible. It is an illustration, not an integration, and uses no
+official logos.
 
 ![Three illustrative host previews of the Underwrite card](assets/hosts.png)
 
@@ -92,8 +92,8 @@ node bin/underwrite.mjs credit claim.json
 
 ## One component
 
-`<underwrite-card>` is a framework independent custom element. It owns attention. It
-never changes a balance.
+`<underwrite-card>` is a framework independent custom element. It owns
+attention. It never changes a balance.
 
 Place it between turns, not inside a model answer:
 

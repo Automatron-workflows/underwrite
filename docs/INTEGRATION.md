@@ -1,7 +1,7 @@
 # Integration
 
-`<underwrite-card>` is a framework independent custom element. It owns the watch. The
-host owns verification and credits.
+`<underwrite-card>` is a framework independent custom element. It owns the
+watch. The host owns verification and credits.
 
 ## Install the source
 
