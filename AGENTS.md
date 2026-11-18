@@ -6,9 +6,14 @@ account, ad network, paid model, API key or hosted backend is needed.
 
 ## Scope and evidence
 
-Ad Harness is a working reference for sponsored inference. The component owns a
-visible, pausable watch and produces a completion claim. The host owns
-verification, receipts and the credit ledger. The demo is one host.
+Ad Harness is a working reference for inline sponsored credits in LLM chat. A
+labelled card sits between turns. The component owns a visible, pausable watch
+and produces a completion claim. The host owns the conversation, the model
+scope, verification, receipts and the credit ledger. The demo is one host.
+
+The card is a placement, not a model answer. It must never copy the assistant
+bubble, avatar or voice, and the model must never be presented as endorsing the
+sponsor. Read [the placement rules](docs/PLACEMENTS.md).
 
 Do not add a real ad network, targeting, telemetry, payments, authentication or
 a hosted service as incidental cleanup. Use [the roadmap](docs/ROADMAP.md) to
@@ -38,7 +43,15 @@ the demo issuer is public, the sponsor is fictional and credits are not money.
 - `src/issuer.mjs` is the demo issuer. It uses Web Crypto only. It must stay
   clearly labelled as a demo, never as a production security boundary.
 - `src/element.mjs` is the only browser component. It owns the watch clock, not
-  the balance. It must never read a credit balance or call the issuer.
+  the balance, the model scope or the placement decision. It must never read a
+  credit balance or call the issuer.
+- The host inserts the element between turns. Do not move or recreate it while
+  it is playing; that resets the watch and the observer. Keep the card stable
+  while the conversation appends.
+- The card must stay visibly labelled and must not use the assistant bubble,
+  avatar or voice. Do not imply a model endorsement.
+- Keep the credit chip in the host bar and name the model scope. A production
+  wallet must not silently mix credits across models.
 - A custom element constructor must not add host attributes or children. Attach
   the shadow root, then set attributes in `connectedCallback`. This bug was
   found in the first browser run and must not return.
@@ -61,13 +74,15 @@ duplicated verification status above the demo. Read
 [the review](docs/FUNCTIONAL-MINIMALISM.md) before changing the composition.
 
 Preserve the dark Automatron composition: a plain wordmark, one headline, one
-task line, one primary action at each stage, and the ledger beside the
-conversation. Put the exchange and boundary behind **How it works**. Put the
-receipt, event trace, embed and host verification behind **Inspect**. Opening
-either control pauses a playing sponsor message.
+task line, one primary action at each stage, the credit chip in the host bar and
+the sponsored card inside the conversation. Do not reintroduce a side rail.
+Put the exchange, placement rules and boundary behind **How it works**. Put the
+receipt, event trace, inline placement snippet and host verification behind
+**Developer**. Opening either control pauses a playing sponsor message.
 
 The sponsor film is typographic, not a fake product demo. Keep it honest,
-labelled and readable. The Still sponsor is fictional.
+labelled and readable. The Still sponsor is fictional. The demo uses an 8 second
+explicit watch; do not add autoplay with credits.
 
 The component should remain themeable through CSS custom properties, including
 `--ah-accent`, `--ah-stage-ratio` and `--ah-chrome-right`. Do not bake the demo
@@ -78,9 +93,10 @@ URLs. Keep labels, values, consequences, errors and recovery visible. Motion
 must survive reduced motion and a static frame.
 
 For UI changes, run `npm run dev` and inspect desktop and 390 pixel layouts,
-keyboard focus, pause and resume, hidden or offscreen pause, completion, receipt
-replay, reset, the transcript, How it works and the Developer dialog. State
-explicitly when a browser check was unavailable.
+the inline placement, the model scoped credit chip, keyboard focus, pause and
+resume, hidden or offscreen pause, completion, receipt replay, reset, the
+transcript, How it works and the Developer dialog. State explicitly when a
+browser check was unavailable.
 
 ## Publication
 

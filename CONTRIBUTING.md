@@ -22,9 +22,11 @@ Set `CHROME_PATH` if Chrome is not in its default location.
   and the demo together.
 - **Component.** Update `src/element.mjs`. Run the browser check. A source test
   is not browser verification.
-- **Demo.** Update `index.html`, `app.mjs` or `styles.css`. Check desktop and
-  390 pixel layouts, keyboard focus, pause and resume, offscreen pause,
-  completion, receipt replay and reset.
+- **Demo.** Update `index.html`, `app.mjs` or `styles.css`. Check the inline
+  placement inside the conversation, the model scoped credit chip, the absence
+  of a side rail, desktop and 390 pixel layouts, keyboard focus, pause and
+  resume, offscreen pause, completion, receipt replay and reset. The card must
+  stay between turns and must not use the assistant bubble or voice.
 - **Site.** Keep `scripts/build-site.mjs` as an explicit allowlist. The built
   site must contain only local modules and assets.
 
@@ -48,8 +50,9 @@ rollback loop.
 ## First contribution
 
 Start with an open issue that has a concrete scope and a verification command.
-Good first tasks include a server verifier example, a session store contract, a
-package build, a reduced motion audit, or a comprehension test plan.
+Good first tasks include a server verifier example, a model scoped wallet, a
+session store contract, a package build, a reduced motion audit, a placement
+format fixture or a comprehension test plan.
 
 Use [Discussions](https://github.com/Automatron-workflows/ad-harness/discussions)
 for questions and [Issues](https://github.com/Automatron-workflows/ad-harness/issues)

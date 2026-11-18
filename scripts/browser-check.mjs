@@ -52,11 +52,11 @@ try {
   );
 
   assert.equal(await text("#balance"), "10");
-  assert.equal(await text("#state"), "Awaiting a watch");
   assert.equal(await page.locator("#send").isDisabled(), true);
   assert.equal(await page.locator("#replay").isDisabled(), true);
   assert.equal(await page.locator("#copy").isDisabled(), true);
   assert.match(await text("#messages"), /A reply costs 10 credits/);
+  assert.match(await text(".ah-host"), /Mini · ad supported/);
   const firstView = await page.evaluate(() => ({
     demoTop: document.querySelector("#demo")?.getBoundingClientRect().top,
     deviceVisible:
@@ -64,11 +64,17 @@ try {
         Infinity) < innerHeight,
     intro: !!document.querySelector(".ah-lede, .ah-eyebrow, .ah-contract"),
     inspectSection: !!document.querySelector("section.ah-inspect"),
+    inlineAd: !!document.querySelector("ad-harness")?.closest(".ah-log"),
+    rail: !!document.querySelector(".ah-rail"),
+    thread: document.querySelector("#thread")?.children.length,
   }));
   assert.ok(firstView.demoTop < 400);
   assert.equal(firstView.deviceVisible, true);
   assert.equal(firstView.intro, false);
   assert.equal(firstView.inspectSection, false);
+  assert.equal(firstView.inlineAd, true);
+  assert.equal(firstView.rail, false);
+  assert.equal(firstView.thread, 0);
   assert.equal(
     await page.evaluate(
       () =>
@@ -78,6 +84,8 @@ try {
     ),
     true,
   );
+
+  await page.screenshot({ path: `${output}/desktop-inline.png` });
 
   await page.keyboard.press("Tab");
   const skip = await page.evaluate(() => {
@@ -122,6 +130,10 @@ try {
   assert.equal(await text("#send"), "Earn 40");
   assert.equal(await page.locator("#message").isDisabled(), true);
   assert.match(await text("#messages"), /Demo response/);
+  assert.equal(
+    await page.evaluate(() => document.querySelector("#starters")?.hidden),
+    true,
+  );
 
   await page.locator("#send").click();
   await page.waitForFunction(
@@ -145,14 +157,16 @@ try {
     null,
     { timeout: 30_000 },
   );
-  assert.equal(await text("#state"), "Verified");
-  assert.match(await text("#ledger"), /\+40/);
+  assert.equal(await text("#balance"), "40");
+  assert.match(await text("#messages"), /Receipt verified/);
+  assert.equal(await adStatus(), "completed");
   assert.equal(await page.locator("#replay").isEnabled(), true);
   await page.locator("#demo").scrollIntoViewIfNeeded();
   await page.screenshot({ path: `${output}/desktop-completed.png` });
 
-  // The receipt and trace are optional detail behind Inspect.
-  await page.locator("#inspect").click();
+  // The receipt and trace are optional detail behind Developer.
+  await page.locator("#developer").scrollIntoViewIfNeeded();
+  await page.locator("#developer").click();
   await page.locator("#developer-dialog[open]").waitFor();
   await page.waitForFunction(() => {
     const dialog = document.querySelector("#developer-dialog");
@@ -166,20 +180,29 @@ try {
   await page.locator("#replay").click();
   assert.equal(await text("#balance"), "40");
   assert.match(await text("#replay-note"), /receipt_used/);
-  assert.match(await text("#ledger"), /Rejected · receipt_used/);
+  assert.match(await text("#messages"), /Replay rejected/);
 
   await page.locator("#reset").click();
   assert.equal(await text("#balance"), "10");
-  assert.equal(await text("#state"), "Awaiting a watch");
-  assert.match(await text("#ledger"), /No movements yet/);
+  assert.equal(
+    await page.evaluate(
+      () => document.querySelector("#thread")?.children.length,
+    ),
+    0,
+  );
+  assert.equal(await adStatus(), "idle");
   assert.match(await text("#receipt"), /Complete a watch/);
+  assert.equal(
+    await page.evaluate(() => document.querySelector("#starters")?.hidden),
+    false,
+  );
   await page.locator("#developer-dialog [data-close]").click();
   await page
     .locator("#developer-dialog")
     .waitFor({ state: "hidden", timeout: 5_000 });
   assert.equal(
     await page.evaluate(() => document.activeElement?.id),
-    "inspect",
+    "developer",
   );
 
   // The explanation is available on demand, not required to use the demo.
@@ -214,7 +237,7 @@ try {
   await page.screenshot({ path: `${output}/mobile-demo.png` });
 
   // Leaving the viewport pauses the clock. It does not auto resume.
-  await page.setViewportSize({ width: 390, height: 500 });
+  await page.setViewportSize({ width: 390, height: 320 });
   await page.locator("ad-harness").scrollIntoViewIfNeeded();
   await adAction("start");
   await page.waitForFunction(
@@ -238,6 +261,9 @@ try {
 
   const summary = {
     checks: [
+      "inline sponsored card sits in the conversation",
+      "model scoped credit chip",
+      "no side rail",
       "usable object leads the page",
       "skip link and focus outline",
       "visible controls meet the 32 pixel review floor",
@@ -245,7 +271,7 @@ try {
       "scripted reply spends one credit",
       "pause and resume",
       "completion credits 40 once",
-      "developer detail behind Inspect",
+      "developer detail behind Developer",
       "receipt replay is refused",
       "reset restores the session",
       "explanation behind How it works",

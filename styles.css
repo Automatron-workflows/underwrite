@@ -81,7 +81,7 @@ body {
 }
 .ah-wrap {
   width: 100%;
-  max-width: 1120px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0 clamp(18px, 3.4vw, 36px);
 }
@@ -161,9 +161,9 @@ body {
 }
 .ah-device {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(330px, 0.95fr);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
-  height: clamp(560px, 64vh, 660px);
+  height: 710px;
   overflow: hidden;
   border: 1px solid var(--ah-line);
   border-radius: 18px;
@@ -213,25 +213,27 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ah-inspect-open {
-  flex: none;
+.ah-credit-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
   min-height: 40px;
   padding: 8px 12px;
-  border: 1px solid #3a3932;
+  border: 1px solid var(--ah-line);
   border-radius: 999px;
-  background: transparent;
+  background: #151513;
+  color: var(--ah-ink);
+  font: 500 16px/1 var(--mono, monospace);
+  letter-spacing: -0.02em;
+}
+.ah-credit-chip span {
+  color: var(--ah-accent);
+}
+.ah-credit-chip small {
   color: var(--ah-muted);
-  font: 500 9px/1 var(--mono, monospace);
+  font: 500 8px/1 var(--mono, monospace);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  cursor: pointer;
-  transition:
-    color 0.18s ease,
-    border-color 0.18s ease;
-}
-.ah-inspect-open:hover {
-  border-color: #555349;
-  color: var(--ah-ink);
 }
 
 /* Chat */
@@ -240,7 +242,6 @@ body {
   flex-direction: column;
   min-width: 0;
   min-height: 0;
-  border-right: 1px solid var(--ah-line);
 }
 .ah-messages {
   display: grid;
@@ -256,6 +257,20 @@ body {
 .ah-log {
   display: grid;
   gap: 16px;
+}
+.ah-thread {
+  display: grid;
+  gap: 16px;
+}
+.ah-ad-block {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+.ah-ad-block ad-harness {
+  display: block;
+  width: 100%;
+  --ah-stage-ratio: 16 / 5;
 }
 .ah-msg {
   display: flex;
@@ -333,6 +348,9 @@ body {
   display: grid;
   gap: 6px;
   padding-top: 2px;
+}
+.ah-starters[hidden] {
+  display: none;
 }
 .ah-starters p {
   margin-bottom: 2px;
@@ -429,93 +447,7 @@ body {
   opacity: 0.45;
 }
 
-/* Rail */
-.ah-rail {
-  display: grid;
-  align-content: start;
-  gap: 15px;
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 17px;
-  background: #0f0f0e;
-  scrollbar-color: #3a3a34 transparent;
-  scrollbar-width: thin;
-}
-.ah-rail-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  color: var(--ah-muted);
-  font: 500 9px/1.2 var(--mono, monospace);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.ah-state {
-  padding: 4px 7px;
-  border: 1px solid var(--ah-line);
-  border-radius: 999px;
-  color: var(--ah-dim);
-  font-size: 8px;
-  letter-spacing: 0.06em;
-}
-.ah-state[data-state="verified"] {
-  border-color: #3e4d35;
-  color: var(--ah-green);
-}
-.ah-state[data-state="rejected"] {
-  border-color: #523a32;
-  color: var(--ah-red);
-}
-.ah-state[data-state="issuing"] {
-  border-color: #4e4631;
-  color: var(--ah-accent);
-}
-.ah-balance {
-  display: grid;
-  gap: 5px;
-  padding-bottom: 13px;
-  border-bottom: 1px solid var(--ah-line);
-}
-.ah-balance-value {
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
-  font: 500 clamp(38px, 4vw, 48px)/0.95 var(--display, sans-serif);
-  letter-spacing: -0.06em;
-}
-.ah-balance-value small {
-  color: var(--ah-muted);
-  font: 500 9px/1 var(--mono, monospace);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.ah-balance-sub {
-  color: #8a8981;
-  font-size: 10.5px;
-  line-height: 1.4;
-}
-.ah-balance-meter {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  margin-top: 3px;
-}
-.ah-balance-meter span {
-  height: 4px;
-  border-radius: 2px;
-  background: #2b2b26;
-  transition: background 0.3s ease;
-}
-.ah-balance-meter span[data-filled="true"] {
-  background: var(--ah-accent);
-}
-.ah-rail ad-harness {
-  display: block;
-  width: 100%;
-  --ah-stage-ratio: 16 / 10;
-}
+/* Sponsored card */
 .ah-transcript {
   padding-top: 11px;
   border-top: 1px solid var(--ah-line);
@@ -553,53 +485,6 @@ body {
 .ah-transcript .ah-transcript-note {
   color: var(--ah-dim);
   font-size: 10px;
-}
-.ah-ledger {
-  display: grid;
-  gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid var(--ah-line);
-}
-.ah-ledger ul {
-  display: grid;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.ah-ledger li {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr) auto;
-  gap: 8px;
-  align-items: baseline;
-  font-size: 10.5px;
-}
-.ah-ledger-amount {
-  color: #d9d6cc;
-  font: 500 10.5px/1 var(--mono, monospace);
-}
-.ah-ledger li[data-kind="grant"] .ah-ledger-amount {
-  color: var(--ah-green);
-}
-.ah-ledger li[data-kind="reject"] .ah-ledger-amount {
-  color: var(--ah-red);
-}
-.ah-ledger-label {
-  overflow: hidden;
-  color: #a9a79e;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.ah-ledger-time {
-  color: #66655f;
-  font: 500 8.5px/1 var(--mono, monospace);
-}
-.ah-ledger-empty {
-  color: #77766f;
-  font-size: 10.5px;
-}
-.ah-ledger li.ah-ledger-empty {
-  display: block;
 }
 
 /* The sponsor film */
@@ -1038,35 +923,22 @@ body {
 
 /* Responsive */
 @media (max-width: 980px) {
-  .ah-device {
-    grid-template-columns: minmax(0, 1fr) 322px;
-  }
   .ah-messages {
     padding: 18px 18px 14px;
   }
   .ah-composer {
     padding: 12px 15px 14px;
   }
-  .ah-rail {
-    padding: 14px;
-  }
 }
 @media (max-width: 860px) {
   .ah-device {
-    grid-template-columns: minmax(0, 1fr);
     height: auto;
   }
   .ah-chat {
     min-height: 0;
-    border-right: 0;
-    border-bottom: 1px solid var(--ah-line);
   }
   .ah-messages {
-    max-height: 330px;
-  }
-  .ah-rail {
-    gap: 14px;
-    overflow: visible;
+    max-height: 480px;
   }
   .ah-film-copy {
     bottom: 76px;
@@ -1098,9 +970,19 @@ body {
   .ah-device-bar {
     padding: 11px 13px;
   }
+  .ah-host small {
+    font-size: 8px;
+  }
+  .ah-credit-chip {
+    padding: 7px 10px;
+    font-size: 14px;
+  }
   .ah-messages {
-    max-height: 300px;
+    max-height: 480px;
     padding: 15px 13px 12px;
+  }
+  .ah-ad-block ad-harness {
+    --ah-stage-ratio: 16 / 9;
   }
   .ah-msg {
     max-width: 94%;
@@ -1110,9 +992,6 @@ body {
   }
   .ah-composer {
     padding: 11px 13px 12px;
-  }
-  .ah-rail {
-    padding: 13px;
   }
   .ah-footer {
     flex-direction: column;

@@ -7,15 +7,16 @@ npm ci --ignore-scripts
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173/`. Spend the starting credit, watch the sponsored
-message, inspect the receipt and try to replay it. The demo issuer is public on
-purpose; it proves the flow, not an ad network.
+Open `http://127.0.0.1:4173/`. The sponsored card sits inside the conversation
+after the assistant intro. Watch 8 seconds, earn 40 credits for **Sage Mini**,
+inspect the receipt in Developer and try to replay it. The demo issuer is public
+on purpose; it proves the flow, not an ad network.
 
 For a first contribution, start with an open issue that has a concrete scope and
 a verification command. The [roadmap](docs/ROADMAP.md) names the next useful
-pieces: a server verifier example, a session store contract, a package build, a
-frequency policy, a consent record, a comprehension study and an accessibility
-review.
+pieces: a server verifier example, a model scoped wallet, a session store
+contract, a viewability policy, a consent record, a comprehension study and an
+accessibility review.
 
 Use [Discussions](https://github.com/Automatron-workflows/ad-harness/discussions)
 for questions and [Issues](https://github.com/Automatron-workflows/ad-harness/issues)

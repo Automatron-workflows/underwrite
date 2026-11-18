@@ -2,19 +2,24 @@
 
 ## Unreleased
 
-- Reworked the demo around Functional Minimalism: the working chat and credit
-  rail lead, the headline is one line plus one task line, optional explanation
-  is behind **How it works**, and the receipt, trace, embed and host
-  verification are behind **Inspect**.
-- Removed the visible contract section, duplicated verification card and
-  implementation status lines. The state pill, chat result and ledger carry the
-  outcome.
+- Recomposed the demo as an inline sponsored card inside the conversation, with
+  a model scoped credit chip in the host bar and no side rail. The 8 second card
+  sits between the assistant intro and the thread; the transcript is inline; the
+  credit chip, chat receipt and Developer trace carry the accounting.
+- Reworked the demo around Functional Minimalism: one headline and one task
+  line, the inline card and credit chip lead, optional explanation is behind
+  **How it works**, and the receipt, trace, placement snippet and host
+  verification are behind **Developer**.
+- Removed the visible contract section, side rail, duplicated verification card
+  and implementation status lines. Named **Sage Mini** wherever the credit scope
+  matters.
 - Added native modal dialogs. Opening either pauses a playing sponsor message.
-- The browser check now covers the object-led first view, both dialogs, the skip
-  link, focus return, the 32 pixel control floor, offscreen pause and the 390
-  pixel layout.
-- Recorded the [Functional Minimalism review](docs/FUNCTIONAL-MINIMALISM.md) and
-  the open evidence limits.
+- The browser check now covers the inline card, the model scoped chip, both
+  dialogs, the skip link, focus return, the 32 pixel control floor, offscreen
+  pause and the 390 pixel layout.
+- Added the [inline placement rules](docs/PLACEMENTS.md) and recorded the
+  [Functional Minimalism review](docs/FUNCTIONAL-MINIMALISM.md) with the open
+  evidence limits.
 
 ## 0.1.0
 

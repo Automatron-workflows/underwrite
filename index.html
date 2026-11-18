@@ -8,7 +8,7 @@
     />
     <meta
       name="description"
-      content="Ad Harness: a drop in sponsored credit component for LLM apps. Watch a short sponsored message, earn credits, inspect the receipt and the ledger."
+      content="Ad Harness: an inline sponsored credit component for LLM chat. Watch a short sponsored message, earn credits for the selected model, inspect the receipt and the ledger."
     />
     <meta name="theme-color" content="#0b0b0a" />
     <meta
@@ -22,7 +22,7 @@
     <meta property="og:title" content="Ad Harness | Attention, settled." />
     <meta
       property="og:description"
-      content="Watch a short sponsored message. Earn credits for the model. Inspect the watch, the receipt and every movement in the ledger."
+      content="An inline sponsored placement in the chat. Watch a short message. Earn credits for the selected model. Inspect the receipt and the ledger."
     />
     <meta
       property="og:image"
@@ -70,7 +70,7 @@
         <section class="ah-hero" aria-labelledby="ah-title">
           <h1 id="ah-title">Attention, settled.</h1>
           <p class="ah-subtitle">
-            Watch a sponsored message. Earn credits for the model.
+            Watch a sponsored message. Earn credits for Sage Mini.
           </p>
         </section>
 
@@ -78,7 +78,7 @@
           class="ah-demo"
           id="demo"
           tabindex="-1"
-          aria-label="Working Ad Harness demo"
+          aria-label="Inline sponsored credit demo"
         >
           <div class="ah-device">
             <div class="ah-device-bar">
@@ -86,22 +86,97 @@
                 <span class="ah-host-mark" aria-hidden="true">s</span>
                 <span>
                   <b>Sage</b>
-                  <small>Demo conversation</small>
+                  <small>Mini · ad supported</small>
                 </span>
               </div>
-              <button
-                class="ah-inspect-open"
-                id="inspect"
-                type="button"
-                aria-haspopup="dialog"
-                aria-controls="developer-dialog"
-              >
-                Inspect
-              </button>
+              <div class="ah-credit-chip" aria-label="Credit balance">
+                <span id="balance">10</span><small>credits</small>
+              </div>
             </div>
 
             <div class="ah-chat">
-              <div class="ah-messages" id="messages"></div>
+              <div class="ah-messages" id="messages">
+                <div
+                  class="ah-log"
+                  id="log"
+                  role="group"
+                  aria-label="Demo conversation"
+                >
+                  <div class="ah-msg ah-msg-assistant">
+                    <span class="ah-avatar" aria-hidden="true">s</span>
+                    <div class="ah-bubble">
+                      <p>
+                        A reply costs 10 credits. Watch the sponsored message to
+                        earn 40.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="ah-ad-block" id="ad-block">
+                    <ad-harness
+                      id="player"
+                      ad-id="still-inline"
+                      sponsor="Still"
+                      title="A quieter way to start."
+                      duration="8"
+                      reward="40"
+                    >
+                      <div
+                        class="ah-film"
+                        id="film"
+                        data-act="0"
+                        data-status="idle"
+                        style="--ah-progress: 0"
+                        aria-hidden="true"
+                      >
+                        <div class="ah-film-glow"></div>
+                        <div class="ah-film-sun"></div>
+                        <div class="ah-film-horizon"></div>
+                        <div class="ah-film-copy">
+                          <p class="ah-film-act" data-active="true">
+                            <span class="ah-film-line">Still.</span
+                            ><span class="ah-film-note"
+                              >A quieter way to start.</span
+                            >
+                          </p>
+                          <p class="ah-film-act">
+                            <span class="ah-film-line">One task.</span
+                            ><span class="ah-film-note"
+                              >One timer. No feed.</span
+                            >
+                          </p>
+                          <p class="ah-film-act">
+                            <span class="ah-film-line">Four hours.</span
+                            ><span class="ah-film-note">Kept.</span>
+                          </p>
+                          <p class="ah-film-act">
+                            <span class="ah-film-line">Try a week.</span
+                            ><span class="ah-film-note">still.example</span>
+                          </p>
+                        </div>
+                      </div>
+                    </ad-harness>
+                    <details class="ah-transcript">
+                      <summary>Read the sponsored message</summary>
+                      <p>
+                        Still. A quieter way to start. One task. One timer. No
+                        feed. Four hours. Kept. Try a week. still.example
+                      </p>
+                      <p class="ah-transcript-note">
+                        Still is a fictional product used for this
+                        demonstration. Ad credits apply to Sage Mini.
+                      </p>
+                    </details>
+                  </div>
+
+                  <div class="ah-thread" id="thread"></div>
+                </div>
+                <div
+                  class="ah-starters"
+                  id="starters"
+                  aria-label="Suggested questions"
+                ></div>
+              </div>
               <form class="ah-composer" id="composer">
                 <div class="ah-input-row">
                   <input
@@ -115,90 +190,6 @@
                 </div>
               </form>
             </div>
-
-            <aside class="ah-rail" aria-label="Credits and sponsored message">
-              <div class="ah-balance">
-                <div class="ah-rail-head">
-                  <span>Credits</span>
-                  <span class="ah-state" id="state" data-state="idle"
-                    >Awaiting a watch</span
-                  >
-                </div>
-                <p class="ah-balance-value">
-                  <span id="balance">10</span><small>credits</small>
-                </p>
-                <p class="ah-balance-sub">
-                  10 per reply · 40 per sponsored message
-                </p>
-                <div class="ah-balance-meter" id="meter" aria-hidden="true">
-                  <span data-filled="true"></span>
-                  <span data-filled="false"></span>
-                  <span data-filled="false"></span>
-                  <span data-filled="false"></span>
-                </div>
-              </div>
-
-              <ad-harness
-                id="player"
-                ad-id="still-launch"
-                sponsor="Still"
-                title="A quieter way to start."
-                duration="15"
-                reward="40"
-              >
-                <div
-                  class="ah-film"
-                  id="film"
-                  data-act="0"
-                  data-status="idle"
-                  style="--ah-progress: 0"
-                  aria-hidden="true"
-                >
-                  <div class="ah-film-glow"></div>
-                  <div class="ah-film-sun"></div>
-                  <div class="ah-film-horizon"></div>
-                  <div class="ah-film-copy">
-                    <p class="ah-film-act" data-active="true">
-                      <span class="ah-film-line">Still.</span
-                      ><span class="ah-film-note">A quieter way to start.</span>
-                    </p>
-                    <p class="ah-film-act">
-                      <span class="ah-film-line">One task.</span
-                      ><span class="ah-film-note">One timer. No feed.</span>
-                    </p>
-                    <p class="ah-film-act">
-                      <span class="ah-film-line">Four hours.</span
-                      ><span class="ah-film-note">Kept.</span>
-                    </p>
-                    <p class="ah-film-act">
-                      <span class="ah-film-line">Try a week.</span
-                      ><span class="ah-film-note">still.example</span>
-                    </p>
-                  </div>
-                </div>
-              </ad-harness>
-
-              <details class="ah-transcript">
-                <summary>Read the sponsored message</summary>
-                <p>
-                  Still. A quieter way to start. One task. One timer. No feed.
-                  Four hours. Kept. Try a week. still.example
-                </p>
-                <p class="ah-transcript-note">
-                  Still is a fictional product used for this demonstration.
-                </p>
-              </details>
-
-              <div class="ah-ledger">
-                <div class="ah-rail-head">
-                  <span>Ledger</span>
-                  <span id="watch-count">0 of 3 sponsored</span>
-                </div>
-                <ul id="ledger">
-                  <li class="ah-ledger-empty">No movements yet.</li>
-                </ul>
-              </div>
-            </aside>
           </div>
         </section>
       </main>
@@ -215,6 +206,14 @@
             aria-controls="how-dialog"
           >
             How it works
+          </button>
+          <button
+            id="developer"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="developer-dialog"
+          >
+            Developer
           </button>
           <span>Automatron · MIT</span>
         </nav>
@@ -236,10 +235,17 @@
       <div class="ah-dialog-body">
         <dl class="ah-how">
           <div>
+            <dt>Placement</dt>
+            <dd>
+              A sponsored card inside the conversation. It is labelled, supplied
+              by the host and never presented as a model answer.
+            </dd>
+          </div>
+          <div>
             <dt>Watch</dt>
             <dd>
               A sponsored message. The player pauses when you leave the tab or
-              the player leaves the screen.
+              the card leaves the view.
             </dd>
           </div>
           <div>
@@ -253,7 +259,7 @@
             <dt>Credit</dt>
             <dd>
               The ledger adds 40 once. Replays, short watches and session caps
-              are refused.
+              are refused. Ad credits apply to Sage Mini.
             </dd>
           </div>
         </dl>
@@ -315,15 +321,19 @@
 
         <div class="ah-snippets">
           <div>
-            <h3>Embed</h3>
+            <h3>Inline placement</h3>
             <pre>
-&lt;ad-harness
-  ad-id="still-launch"
-  sponsor="Still"
-  duration="15"
-  reward="40"&gt;
-  &lt;!-- the sponsor creative supplied by the ad network --&gt;
-&lt;/ad-harness&gt;</pre>
+&lt;div class="conversation"&gt;
+  &lt;assistant-message&gt;...&lt;/assistant-message&gt;
+  &lt;ad-harness
+    ad-id="still-inline"
+    sponsor="Still"
+    duration="8"
+    reward="40"&gt;
+    &lt;!-- brand logo, image or video --&gt;
+  &lt;/ad-harness&gt;
+  &lt;assistant-message&gt;...&lt;/assistant-message&gt;
+&lt;/div&gt;</pre>
           </div>
           <div>
             <h3>Host verification</h3>

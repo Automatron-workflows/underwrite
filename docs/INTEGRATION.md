@@ -13,14 +13,50 @@ import { registerAdHarness } from "./src/element.mjs";
 registerAdHarness();
 ```
 
+## Inline placement
+
+The component is designed to sit inside a conversation. Insert it between turns,
+not inside a model answer:
+
+```html
+<div class="conversation">
+  <assistant-message>...</assistant-message>
+  <ad-harness ad-id="still-inline" sponsor="Still" duration="8" reward="40">
+    <!-- brand logo, image or video -->
+  </ad-harness>
+  <assistant-message>...</assistant-message>
+</div>
+```
+
+Keep the card visibly labelled. It must not copy the assistant bubble, avatar or
+voice. The host should name the model scope where the credits can be used, for
+example `Sage Mini`, in the host bar and the surrounding copy.
+
+The demo uses a wide stage inside the conversation:
+
+```css
+.conversation ad-harness {
+  --ah-stage-ratio: 16 / 5;
+}
+@media (max-width: 640px) {
+  .conversation ad-harness {
+    --ah-stage-ratio: 16 / 9;
+  }
+}
+```
+
+The demo places the card after the assistant intro and keeps the thread below
+it. The card is not recreated on each message; that would reset the watch. Keep
+the sponsored node stable while the conversation appends.
+
 ## Mark up the slot
 
 ```html
 <ad-harness
-  ad-id="still-launch"
+  ad-id="still-inline"
   sponsor="Still"
   title="A quieter way to start."
-  duration="15"
+  duration="8"
   reward="40"
 >
   <!-- the sponsor creative supplied by the ad network -->
@@ -30,6 +66,9 @@ registerAdHarness();
 The creative is optional. Without it, the component renders an honest fallback
 card using the sponsor, title and reward. The creative is slotted into the
 component and is dimmed while idle and completed.
+
+Use a logo, image, video or text creative supplied by the host. The demo uses a
+typographic brand film. Do not inject arbitrary remote HTML into the slot.
 
 ## Listen for completion
 
@@ -57,16 +96,21 @@ is inspectable. That is a demo choice, not the production recommendation.
 
 ## Host checklist
 
-- Render the sponsor, duration and reward before the watch starts.
+- Render the sponsor, duration, reward and model scope before the watch starts.
+- Place the card between turns, not inside a model answer.
+- Keep the credit balance visible in the host bar. Keep the receipt and trace
+  available without making them a prerequisite.
 - Start the player only from an explicit user action.
-- Keep the ledger visible next to the conversation.
 - Verify the claim on the server.
-- Bind the receipt to one account, one ad and one session.
+- Bind the receipt to one account, one ad, one model scope and one session.
 - Enforce the session and frequency caps on the server.
 - Keep the transcript available.
 - Refuse to start a watch at the cap.
 - Replace the demo issuer before accepting real value.
 - Do not use the component to hide price, permissions or consequences.
+- Do not autoplay with credits or reward a background tab.
+- Do not use conversation content to target an ad without a published policy
+  and consent.
 
 ## Attributes
 

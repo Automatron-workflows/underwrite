@@ -2,33 +2,36 @@
 
 **Attention, settled.**
 
-A drop in sponsored credit component for LLM apps. The person watches a short
-sponsored message. The sponsor covers the inference. The ledger shows exactly
-what moved.
+An inline sponsored credit component for LLM chat. The person watches a short
+sponsored card inside the conversation. The sponsor covers the inference. The
+credit chip and the receipt show exactly what moved.
 
-![The working demo: a chat, a verified receipt and a visible credit ledger](assets/demo.png)
+![The working demo: an inline sponsored card inside the chat, a model scoped credit chip and a verified receipt](assets/demo.png)
 
-[Read the protocol](docs/PROTOCOL.md) · [Integrate the component](docs/INTEGRATION.md)
-· [Security boundary](docs/SECURITY.md) · [Functional Minimalism review](docs/FUNCTIONAL-MINIMALISM.md)
+[Read the protocol](docs/PROTOCOL.md) · [Inline placements](docs/PLACEMENTS.md)
+· [Integrate the component](docs/INTEGRATION.md) · [Security boundary](docs/SECURITY.md)
+· [Functional Minimalism review](docs/FUNCTIONAL-MINIMALISM.md)
 · [Design notes](docs/DESIGN.md)
 
 ## What this is
 
-An LLM app can run out of credits. Ad Harness gives it one honest option: show a
-sponsored message, verify that it was watched, and grant a credit receipt the
-host can redeem exactly once.
+An LLM app can run out of credits. Ad Harness gives it one honest option: place
+a labelled sponsored card in the conversation, verify that it was watched, and
+grant a credit receipt the host can redeem exactly once.
 
-The demo is a working end to end reference. A chat reply costs 10 credits. A
-15 second sponsored message earns 40. The player pauses when the tab is hidden
-or the player leaves the viewport. Completion produces a claim. The host checks
-the claim, verifies a signed receipt and moves a visible ledger. Replaying the
+The demo is a working end to end reference. The card sits between the assistant
+intro and the next turn. A chat reply costs 10 credits. An 8 second sponsored
+card earns 40 credits for **Sage Mini**. The player pauses when the tab is
+hidden or the card leaves the view. Completion produces a claim. The host checks
+the claim, verifies a signed receipt and updates the credit chip. Replaying the
 receipt is refused.
 
-The page follows the Functional Minimalism harness: the working chat and credit
-rail lead. **How it works** holds the optional explanation and boundary.
-**Inspect** holds the receipt, event trace, embed and host verification. The
-first view does not require an introductory read. The review and its limits are
-recorded in [docs/FUNCTIONAL-MINIMALISM.md](docs/FUNCTIONAL-MINIMALISM.md).
+The page follows the Functional Minimalism harness: the working chat and the
+inline sponsored card lead. The credit chip stays in the host bar. **How it
+works** holds the optional explanation and boundary. **Developer** holds the
+receipt, event trace, inline placement and host verification. The first view
+does not require an introductory read. The review and its limits are recorded in
+[docs/FUNCTIONAL-MINIMALISM.md](docs/FUNCTIONAL-MINIMALISM.md).
 
 No account, API key, ad network or backend is connected.
 
@@ -58,6 +61,9 @@ Ledger   +40 · balance 50
 Boundary demo issuer only · no advertiser or payment is connected
 ```
 
+The CLI uses the bundled 15 second Still definition. The browser demo uses an
+8 second inline sample with the same reward and protocol.
+
 The CLI writes fresh claims, validates them and credits a fresh ledger:
 
 ```sh
@@ -71,16 +77,22 @@ node bin/ad-harness.mjs credit claim.json
 `<ad-harness>` is a framework independent custom element. It owns attention. It
 never changes a balance.
 
+Place it between turns, not inside a model answer:
+
 ```html
-<ad-harness
-  ad-id="still-launch"
-  sponsor="Still"
-  title="A quieter way to start."
-  duration="15"
-  reward="40"
->
-  <!-- the sponsor creative supplied by the ad network -->
-</ad-harness>
+<div class="conversation">
+  <assistant-message>...</assistant-message>
+  <ad-harness
+    ad-id="still-inline"
+    sponsor="Still"
+    title="A quieter way to start."
+    duration="8"
+    reward="40"
+  >
+    <!-- a brand logo, image, video or other host supplied creative -->
+  </ad-harness>
+  <assistant-message>...</assistant-message>
+</div>
 ```
 
 | Attribute  | Default                      | Meaning                                |
@@ -108,9 +120,9 @@ Events bubble and cross the shadow boundary:
 | `adharness:completed` | `{ claim }`                                 |
 | `adharness:reset`     | `{ adId }`                                  |
 
-The clock pauses when the document is hidden, when the player leaves the
-viewport and when the host disables the element. It does not auto resume. A
-background tab cannot earn credits.
+The clock pauses when the document is hidden, when the card leaves the
+conversation view and when the host disables the element. It does not auto
+resume. A background tab cannot earn credits.
 
 ## One proof
 
@@ -148,9 +160,10 @@ network served the message. Production verification belongs on a server.
 - a session beyond its cap (`session_cap`)
 - a spend below zero (`insufficient_credits`)
 
-The demo starts at 10 credits, charges 10 per reply, rewards 40 per watch and
-caps the session at 3 watches. The **Replay the last receipt** control proves
-the second credit is refused while the balance stays unchanged.
+The demo starts at 10 credits, charges 10 per reply, rewards 40 per 8 second
+inline watch and caps the session at 3 watches. Credits are scoped to **Sage
+Mini** in the demo. The **Replay the last receipt** control proves the second
+credit is refused while the balance stays unchanged.
 
 ## Boundary
 
@@ -171,12 +184,14 @@ sets `connect-src 'none'`.
 ```sh
 npm test          # protocol, issuer, CLI and export tests
 npm run check     # tests plus static checks for network primitives and CSP
-npm run test:browser  # real Chrome flow, pause, replay, mobile layout
+npm run test:browser  # Chrome inline flow, pause, replay, mobile layout
 npm run build:site    # static site in _site/
 ```
 
-The browser check needs Google Chrome. Set `CHROME_PATH` if Chrome is not in its
-default location.
+The browser check covers the inline card, the model scoped credit chip, the
+Developer and How it works dialogs, pause and resume, receipt replay, reset,
+offscreen pause and the 390 pixel layout. It needs Google Chrome. Set
+`CHROME_PATH` if Chrome is not in its default location.
 
 ## Project layout
 
@@ -190,7 +205,7 @@ index.html             working host app, How it works and Developer dialogs
 app.mjs                demo host state and DOM
 styles.css             page and sponsor film styles
 examples/              bundled ad definition and sample claim source
-docs/                  protocol, integration, security, design, roadmap
+docs/                  protocol, placements, integration, security, design, roadmap
 test/                  Node tests
 scripts/               dev server, static check, site build, browser check
 ```
@@ -204,5 +219,5 @@ chooses a distribution route. The repository and GitHub Pages workflow are
 prepared but publication is a separate action.
 
 The next tests should run with a real ad network verifier, a server side cap,
-and a short user study of whether the exchange is understood without the
-inspection panel.
+and a short user study of whether the exchange and the model scope are
+understood without opening How it works.
