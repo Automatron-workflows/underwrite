@@ -9,7 +9,8 @@ what moved.
 ![The working demo: a chat, a verified receipt and a visible credit ledger](assets/demo.png)
 
 [Read the protocol](docs/PROTOCOL.md) · [Integrate the component](docs/INTEGRATION.md)
-· [Security boundary](docs/SECURITY.md) · [Design notes](docs/DESIGN.md)
+· [Security boundary](docs/SECURITY.md) · [Functional Minimalism review](docs/FUNCTIONAL-MINIMALISM.md)
+· [Design notes](docs/DESIGN.md)
 
 ## What this is
 
@@ -22,6 +23,12 @@ The demo is a working end to end reference. A chat reply costs 10 credits. A
 or the player leaves the viewport. Completion produces a claim. The host checks
 the claim, verifies a signed receipt and moves a visible ledger. Replaying the
 receipt is refused.
+
+The page follows the Functional Minimalism harness: the working chat and credit
+rail lead. **How it works** holds the optional explanation and boundary.
+**Inspect** holds the receipt, event trace, embed and host verification. The
+first view does not require an introductory read. The review and its limits are
+recorded in [docs/FUNCTIONAL-MINIMALISM.md](docs/FUNCTIONAL-MINIMALISM.md).
 
 No account, API key, ad network or backend is connected.
 
@@ -179,7 +186,7 @@ src/issuer.mjs         demo HMAC issuer and verifier
 src/element.mjs        <ad-harness>, shadow DOM, timer and events
 src/index.mjs          public exports
 bin/ad-harness.mjs     verify, credit, sample and demo commands
-index.html             working host app and inspection surface
+index.html             working host app, How it works and Developer dialogs
 app.mjs                demo host state and DOM
 styles.css             page and sponsor film styles
 examples/              bundled ad definition and sample claim source

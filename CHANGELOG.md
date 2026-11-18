@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- Reworked the demo around Functional Minimalism: the working chat and credit
+  rail lead, the headline is one line plus one task line, optional explanation
+  is behind **How it works**, and the receipt, trace, embed and host
+  verification are behind **Inspect**.
+- Removed the visible contract section, duplicated verification card and
+  implementation status lines. The state pill, chat result and ledger carry the
+  outcome.
+- Added native modal dialogs. Opening either pauses a playing sponsor message.
+- The browser check now covers the object-led first view, both dialogs, the skip
+  link, focus return, the 32 pixel control floor, offscreen pause and the 390
+  pixel layout.
+- Recorded the [Functional Minimalism review](docs/FUNCTIONAL-MINIMALISM.md) and
+  the open evidence limits.
+
 ## 0.1.0
 
 - Added the portable `<ad-harness>` custom element with a pausable 15 second

@@ -56,7 +56,19 @@ try {
   assert.equal(await page.locator("#send").isDisabled(), true);
   assert.equal(await page.locator("#replay").isDisabled(), true);
   assert.equal(await page.locator("#copy").isDisabled(), true);
-  assert.match(await text("#messages"), /working chat surface/);
+  assert.match(await text("#messages"), /A reply costs 10 credits/);
+  const firstView = await page.evaluate(() => ({
+    demoTop: document.querySelector("#demo")?.getBoundingClientRect().top,
+    deviceVisible:
+      (document.querySelector(".ah-device")?.getBoundingClientRect().top ??
+        Infinity) < innerHeight,
+    intro: !!document.querySelector(".ah-lede, .ah-eyebrow, .ah-contract"),
+    inspectSection: !!document.querySelector("section.ah-inspect"),
+  }));
+  assert.ok(firstView.demoTop < 400);
+  assert.equal(firstView.deviceVisible, true);
+  assert.equal(firstView.intro, false);
+  assert.equal(firstView.inspectSection, false);
   assert.equal(
     await page.evaluate(
       () =>
@@ -67,6 +79,41 @@ try {
     true,
   );
 
+  await page.keyboard.press("Tab");
+  const skip = await page.evaluate(() => {
+    const active = document.activeElement;
+    const style = getComputedStyle(active);
+    return {
+      text: active?.textContent?.trim(),
+      outline: `${style.outlineStyle} ${style.outlineWidth}`,
+    };
+  });
+  assert.equal(skip.text, "Skip to the demo");
+  assert.equal(skip.outline, "solid 2px");
+
+  const smallTargets = await page.evaluate(() => {
+    const controls = [
+      ...document.querySelectorAll("button, a, summary, input"),
+    ];
+    const player = document.querySelector("ad-harness");
+    if (player?.shadowRoot)
+      controls.push(...player.shadowRoot.querySelectorAll("button"));
+    return controls
+      .filter((element) => {
+        const rect = element.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return false;
+        if (rect.right < 0 || rect.bottom < 0) return false;
+        return rect.width < 32 || rect.height < 32;
+      })
+      .map((element) => ({
+        label:
+          element.textContent?.trim() || element.getAttribute("aria-label"),
+        width: Math.round(element.getBoundingClientRect().width),
+        height: Math.round(element.getBoundingClientRect().height),
+      }));
+  });
+  assert.deepEqual(smallTargets, []);
+
   // Spend the starting credit, then start the sponsored watch from the composer.
   await page.locator(".ah-starters button").first().click();
   await page.waitForFunction(
@@ -74,7 +121,7 @@ try {
   );
   assert.equal(await text("#send"), "Earn 40");
   assert.equal(await page.locator("#message").isDisabled(), true);
-  assert.match(await text("#messages"), /Scripted demo response/);
+  assert.match(await text("#messages"), /Demo response/);
 
   await page.locator("#send").click();
   await page.waitForFunction(
@@ -99,12 +146,21 @@ try {
     { timeout: 30_000 },
   );
   assert.equal(await text("#state"), "Verified");
-  assert.match(await text("#receipt"), /"receiptId": "rcpt_/);
   assert.match(await text("#ledger"), /\+40/);
   assert.equal(await page.locator("#replay").isEnabled(), true);
-  assert.match(await text("#trace"), /adharness:completed/);
   await page.locator("#demo").scrollIntoViewIfNeeded();
   await page.screenshot({ path: `${output}/desktop-completed.png` });
+
+  // The receipt and trace are optional detail behind Inspect.
+  await page.locator("#inspect").click();
+  await page.locator("#developer-dialog[open]").waitFor();
+  await page.waitForFunction(() => {
+    const dialog = document.querySelector("#developer-dialog");
+    return dialog?.open && Number(getComputedStyle(dialog).opacity) === 1;
+  });
+  assert.match(await text("#receipt"), /"receiptId": "rcpt_/);
+  assert.match(await text("#trace"), /adharness:completed/);
+  await page.screenshot({ path: `${output}/desktop-developer.png` });
 
   // A replayed receipt must be visible as a rejection, not a second credit.
   await page.locator("#replay").click();
@@ -117,25 +173,25 @@ try {
   assert.equal(await text("#state"), "Awaiting a watch");
   assert.match(await text("#ledger"), /No movements yet/);
   assert.match(await text("#receipt"), /Complete a watch/);
+  await page.locator("#developer-dialog [data-close]").click();
+  await page
+    .locator("#developer-dialog")
+    .waitFor({ state: "hidden", timeout: 5_000 });
+  assert.equal(
+    await page.evaluate(() => document.activeElement?.id),
+    "inspect",
+  );
 
-  // Leaving the viewport pauses the clock. It does not auto resume.
-  await page.locator("#demo").scrollIntoViewIfNeeded();
-  await adAction("start");
-  await page.waitForFunction(
-    () =>
-      document.querySelector("ad-harness")?.getAttribute("data-status") ===
-      "playing",
-  );
-  await page.locator("#inspect").scrollIntoViewIfNeeded();
-  await page.waitForFunction(
-    () =>
-      document.querySelector("ad-harness")?.getAttribute("data-status") ===
-      "paused",
-    null,
-    { timeout: 5_000 },
-  );
-  assert.equal(await adStatus(), "paused");
-  await page.locator("#reset").click();
+  // The explanation is available on demand, not required to use the demo.
+  await page.locator("#how").scrollIntoViewIfNeeded();
+  await page.locator("#how").click();
+  await page.locator("#how-dialog[open]").waitFor();
+  assert.match(await text("#how-dialog"), /single use receipt/);
+  await page.locator("#how-dialog [data-close]").click();
+  await page
+    .locator("#how-dialog")
+    .waitFor({ state: "hidden", timeout: 5_000 });
+  assert.equal(await page.evaluate(() => document.activeElement?.id), "how");
 
   // Narrow layout: no horizontal overflow, the demo stays usable.
   await page.setViewportSize({ width: 390, height: 844 });
@@ -152,13 +208,29 @@ try {
   }));
   assert.equal(mobile.width, mobile.viewport);
   assert.ok(mobile.demo <= mobile.viewport);
-  assert.deepEqual(
-    mobile.nav.slice(0, 2).map((item) => item.display),
-    ["none", "none"],
-  );
-  assert.notEqual(mobile.nav[2]?.display, "none");
+  assert.equal(mobile.nav.length, 1);
+  assert.notEqual(mobile.nav[0]?.display, "none");
   await page.locator("#demo").scrollIntoViewIfNeeded();
   await page.screenshot({ path: `${output}/mobile-demo.png` });
+
+  // Leaving the viewport pauses the clock. It does not auto resume.
+  await page.setViewportSize({ width: 390, height: 500 });
+  await page.locator("ad-harness").scrollIntoViewIfNeeded();
+  await adAction("start");
+  await page.waitForFunction(
+    () =>
+      document.querySelector("ad-harness")?.getAttribute("data-status") ===
+      "playing",
+  );
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForFunction(
+    () =>
+      document.querySelector("ad-harness")?.getAttribute("data-status") ===
+      "paused",
+    null,
+    { timeout: 5_000 },
+  );
+  assert.equal(await adStatus(), "paused");
 
   assert.deepEqual(errors, []);
   assert.ok(network.length >= 1);
@@ -166,12 +238,17 @@ try {
 
   const summary = {
     checks: [
+      "usable object leads the page",
+      "skip link and focus outline",
+      "visible controls meet the 32 pixel review floor",
       "initial balance and locked composer",
       "scripted reply spends one credit",
       "pause and resume",
       "completion credits 40 once",
+      "developer detail behind Inspect",
       "receipt replay is refused",
       "reset restores the session",
+      "explanation behind How it works",
       "leaving the viewport pauses",
       "390 pixel layout has no horizontal overflow",
     ],

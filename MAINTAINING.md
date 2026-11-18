@@ -22,8 +22,10 @@ npm run test:browser
 ```
 
 It checks the starting balance, scripted reply, pause and resume, completion,
-single credit, receipt replay rejection, reset, offscreen pause and the 390
-pixel layout. Screenshots and `summary.json` are written to `output/browser/`.
+single credit, receipt replay rejection, reset, the Inspect and How it works
+dialogs, the skip link, dialog focus return, the visible control target floor,
+offscreen pause and the 390 pixel layout. Screenshots and `summary.json` are
+written to `output/browser/`.
 
 The check needs Google Chrome. Set `CHROME_PATH` when Chrome is not in its
 default location. Do not replace it with a mocked DOM test.

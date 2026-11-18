@@ -54,10 +54,20 @@ the demo issuer is public, the sponsor is fictional and credits are not money.
 
 ## Design rules
 
+The demo follows the Functional Minimalism harness. Lead with the usable object,
+keep one headline and one task line, and reveal optional detail in context. Do
+not reintroduce introductory prose, feature pills, numbered contract sections or
+duplicated verification status above the demo. Read
+[the review](docs/FUNCTIONAL-MINIMALISM.md) before changing the composition.
+
 Preserve the dark Automatron composition: a plain wordmark, one headline, one
-primary action at each stage, and the ledger beside the conversation. The
-sponsor film is typographic, not a fake product demo. Keep it honest, labelled
-and readable. The Still sponsor is fictional.
+task line, one primary action at each stage, and the ledger beside the
+conversation. Put the exchange and boundary behind **How it works**. Put the
+receipt, event trace, embed and host verification behind **Inspect**. Opening
+either control pauses a playing sponsor message.
+
+The sponsor film is typographic, not a fake product demo. Keep it honest,
+labelled and readable. The Still sponsor is fictional.
 
 The component should remain themeable through CSS custom properties, including
 `--ah-accent`, `--ah-stage-ratio` and `--ah-chrome-right`. Do not bake the demo
@@ -68,9 +78,9 @@ URLs. Keep labels, values, consequences, errors and recovery visible. Motion
 must survive reduced motion and a static frame.
 
 For UI changes, run `npm run dev` and inspect desktop and 390 pixel layouts,
-keyboard focus, pause and resume, hidden or offscreen pause, completion,
-receipt replay, reset, the transcript and the developer panel. State explicitly
-when a browser check was unavailable.
+keyboard focus, pause and resume, hidden or offscreen pause, completion, receipt
+replay, reset, the transcript, How it works and the Developer dialog. State
+explicitly when a browser check was unavailable.
 
 ## Publication
 

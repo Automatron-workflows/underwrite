@@ -14,16 +14,24 @@ not implied.
 
 ## Composition
 
+The page follows the [Functional Minimalism review](FUNCTIONAL-MINIMALISM.md):
+lead with the usable object, keep only the task copy, and reveal optional detail
+in context.
+
 - One dark device surface on a near black page.
+- A short wordmark bar, one headline and one task line. No introduction,
+  feature pills or numbered contract section above the demo.
 - A chat on the left and a credit rail on the right, because the value and the
   accounting should be readable together.
 - One primary action at each stage: watch, resume or send.
-- A sticky wordmark bar that keeps the page identity visible without covering
-  the content.
-- The ledger below the player, with the receipt and the event trace in a
-  separate inspection panel.
-- A contract section above the inspection panel that names the three
-  responsibilities: component, proof, ledger.
+- The ledger below the player. The receipt, event trace, embed and host
+  verification live behind the visible Inspect control in the host bar.
+- The exchange and the boundary live behind How it works in the footer.
+- A concise footer states the boundary without repeating the whole protocol.
+
+The first view at desktop size contains the headline, the working chat, the
+credit rail, the sponsor message and the ledger. The page does not require an
+introductory read.
 
 ## The sponsor film
 
@@ -62,14 +70,17 @@ rejection. The sponsor film uses the same warm family.
 ## Copy
 
 - The headline is **Attention, settled.**
+- The task line is **Watch a sponsored message. Earn credits for the model.**
 - The component is **adharness** in the wordmark and **Ad Harness** in prose.
 - The host app is **Sage**.
 - The sponsor is **Still**, a fictional product.
 - The reward is **40 credits**, the reply is **10 credits**.
-- The boundary is stated plainly: demo issuer, fictional sponsor, no ad network,
-  no money.
+- The boundary is stated plainly in the footer and How it works: demo issuer,
+  fictional sponsor, no ad network, no money.
 
 No dash punctuation is used in prose. Values and units stay next to the action.
+The first view carries no introductory paragraph, feature pills or numbered
+contract section.
 
 ## Accessibility
 
@@ -78,14 +89,23 @@ No dash punctuation is used in prose. Values and units stay next to the action.
 - The progress bar exposes `role="progressbar"` and `aria-valuenow`.
 - The component announces start, pause and completion through a polite live
   region.
-- The film is decorative; the transcript carries the sponsor copy.
+- A separate polite live region announces scripted replies and receipt results.
+  The chat history is not re-announced when it re-renders.
+- The film is decorative and hidden from the accessibility tree; the transcript
+  carries the sponsor copy.
 - Focus uses a two pixel champagne outline with an offset.
-- The page has a skip-free single flow; the top navigation is optional.
+- A skip link reaches the demo. How it works and Developer are native modal
+  dialogs with labelled close controls and focus return.
 - A 390 pixel layout has no horizontal overflow. The chat and rail stack, and
   the earn action scrolls the player into view before starting.
+- Opening How it works or Developer pauses a playing sponsor message.
 
 ## Rejected alternatives
 
+- **A tutorial page above the demo.** It delays the usable object and repeats
+  what the chat, credit rail and ledger already show.
+- **A duplicate verification card.** The state pill, ledger and chat result
+  already carry the outcome. The receipt id belongs in Developer detail.
 - **A fake ad network.** It would add theatre without evidence. The boundary
   section is stronger.
 - **Hiding the ledger.** It would make the exchange feel like a trick.
@@ -97,7 +117,8 @@ No dash punctuation is used in prose. Values and units stay next to the action.
 
 ## Evidence limits
 
-The browser check covers the desktop flow, pause and resume, completion, replay,
-reset, offscreen pause and the 390 pixel layout. It is not a user study. We do
-not know whether a first time visitor understands the exchange without opening
-the inspection panel. Test that before claiming comprehension.
+The browser check covers the desktop flow, pause and resume, completion, single
+credit, replay refusal, reset, the Inspect and How it works dialogs, offscreen
+pause and the 390 pixel layout. It is not a user study. We do not know whether a
+first time visitor understands the exchange without opening How it works. Test
+that before claiming comprehension.

@@ -305,7 +305,6 @@ const template = `
       <span class="tag"></span>
     </div>
     <div class="idle">
-      <p class="eyebrow">Sponsored message</p>
       <p class="idle-title"></p>
       <button class="primary" type="button" data-action="start">
         <span class="start-label">Watch 15 seconds</span>

@@ -23,17 +23,15 @@ const MAX_ADS = 3;
 const METER_SEGMENTS = 4;
 
 const COPY = {
-  intro:
-    "This is a working chat surface. A reply costs 10 credits. When the balance runs out, watch a 15 second sponsored message to earn 40.",
-  scripted: "Scripted demo response",
+  intro: "A reply costs 10 credits. Watch a sponsored message to earn 40.",
+  scripted: "Demo response",
   placeholder: "Ask about the harness",
   placeholderLocked: "Watch a sponsored message to keep going",
-  locked: "0 credits. A reply costs 10.",
   earn: "Earn 40",
   prompts: [
-    { label: "What does a reply cost?", key: "cost" },
-    { label: "Why would an app do this?", key: "why" },
-    { label: "How is a watch verified?", key: "verify" },
+    "What does a reply cost?",
+    "Why would an app do this?",
+    "How is a watch verified?",
   ],
   replies: {
     cost: "A reply costs 10 credits. One sponsored message earns 40, so a single watch covers four replies. This demo has no subscription and no payment.",
@@ -44,7 +42,6 @@ const COPY = {
       "This demo answers from a fixed script. It can explain the harness, but it is not a live model. The point is the contract around the ad, not the language model.",
   },
   credited: "Receipt verified. Forty credits added.",
-  rejected: "Receipt rejected. The ledger did not move.",
   cap: "Session limit reached. The player is closed for this demo.",
 };
 
@@ -56,8 +53,6 @@ const el = {
   composer: $("#composer"),
   message: $("#message"),
   send: $("#send"),
-  composerState: $("#composer-state"),
-  replies: $("#replies"),
   balance: $("#balance"),
   meter: $("#meter"),
   state: $("#state"),
@@ -65,17 +60,16 @@ const el = {
   film: $("#film"),
   ledger: $("#ledger"),
   watchCount: $("#watch-count"),
-  verification: $("#verification"),
-  verificationTitle: $("#verification-title"),
-  verificationNote: $("#verification-note"),
-  verificationReceipt: $("#verification-receipt"),
-  playerState: $("#player-state"),
   trace: $("#trace"),
   receipt: $("#receipt"),
   replay: $("#replay"),
   reset: $("#reset"),
   copy: $("#copy"),
   replayNote: $("#replay-note"),
+  inspect: $("#inspect"),
+  how: $("#how"),
+  developerDialog: $("#developer-dialog"),
+  howDialog: $("#how-dialog"),
 };
 
 let ledger = createLedger(START_BALANCE);
@@ -83,7 +77,6 @@ let messages = [{ role: "assistant", body: COPY.intro }];
 let trace = [];
 let receipt = null;
 let verification = "idle";
-let verificationNote = "";
 let replayNote = "";
 let busy = false;
 let generation = 0;
@@ -189,9 +182,9 @@ function renderMessages() {
     for (const prompt of COPY.prompts) {
       const button = document.createElement("button");
       button.type = "button";
-      button.textContent = prompt.label;
+      button.textContent = prompt;
       button.disabled = locked;
-      button.addEventListener("click", () => send(prompt.label));
+      button.addEventListener("click", () => send(prompt));
       starters.append(button);
     }
     el.messages.append(starters);
@@ -213,7 +206,6 @@ function updateSend() {
 
 function renderBalance() {
   const locked = ledger.balance < MESSAGE_COST;
-  const replies = Math.floor(ledger.balance / MESSAGE_COST);
   const filled = Math.min(
     METER_SEGMENTS,
     Math.ceil(ledger.balance / MESSAGE_COST),
@@ -223,10 +215,6 @@ function renderBalance() {
   Array.from(el.meter.children).forEach((segment, index) => {
     segment.dataset.filled = String(index < filled);
   });
-  el.replies.textContent = `${replies} ${replies === 1 ? "reply" : "replies"} left`;
-  el.composerState.textContent = locked
-    ? COPY.locked
-    : `${formatCredits(ledger.balance)} credits · 10 per reply`;
   el.message.disabled = locked;
   el.message.placeholder = locked ? COPY.placeholderLocked : COPY.placeholder;
   el.watchCount.textContent = `${ledger.adsWatched} of ${MAX_ADS} sponsored`;
@@ -287,35 +275,15 @@ function renderTrace() {
   }
 }
 
-function renderVerification() {
-  const titles = {
-    idle: "No claim yet",
-    issuing: "Checking claim",
-    verified: "Receipt credited",
-    rejected: "Receipt refused",
-  };
-  const states = {
+function renderState() {
+  const labels = {
     idle: "Awaiting a watch",
     issuing: "Verifying",
     verified: "Verified",
     rejected: "Rejected",
   };
-  const defaults = {
-    idle: "A completed watch becomes a single use receipt.",
-    issuing: "Checking duration, freshness and nonce.",
-    verified: receipt ? `+${receipt.reward} credits` : "",
-    rejected: verificationNote,
-  };
-  el.verification.dataset.state = verification;
   el.state.dataset.state = verification;
-  el.state.textContent = states[verification];
-  el.verificationTitle.textContent = titles[verification];
-  el.verificationNote.textContent = verificationNote || defaults[verification];
-  const mark = el.verification.querySelector(".ah-verification-mark");
-  mark.textContent =
-    verification === "verified" ? "✓" : verification === "rejected" ? "×" : "·";
-  el.verificationReceipt.hidden = !receipt;
-  el.verificationReceipt.textContent = receipt?.receiptId ?? "";
+  el.state.textContent = labels[verification];
   el.replay.disabled = !receipt;
 }
 
@@ -331,7 +299,7 @@ function render() {
   renderBalance();
   renderLedger();
   renderTrace();
-  renderVerification();
+  renderState();
   renderReceipt();
 }
 
@@ -386,7 +354,6 @@ async function onClaim(claim) {
   const current = generation;
   busy = true;
   verification = "issuing";
-  verificationNote = "Checking duration, freshness and nonce.";
   render();
   addTrace("claim:received", `${claim.adId} · ${claim.elapsedMs}ms`);
   try {
@@ -401,11 +368,11 @@ async function onClaim(claim) {
     ledger = result.state;
     receipt = nextReceipt;
     verification = "verified";
-    verificationNote = `+${nextReceipt.reward} credits`;
     addTrace(
       "ledger:credited",
       `+${nextReceipt.reward} · ${nextReceipt.receiptId}`,
     );
+    el.announcer.textContent = COPY.credited;
     appendMessage("system", COPY.credited, { tone: "credit" });
     if (remainingAds(ledger, MAX_ADS) === 0) {
       addTrace("session:cap", `${MAX_ADS} of ${MAX_ADS}`);
@@ -416,15 +383,12 @@ async function onClaim(claim) {
   } catch (error) {
     if (generation !== current) return;
     const code = error?.code ? String(error.code) : "claim_invalid";
-    const message =
-      error instanceof Error
-        ? error.message
-        : "The claim could not be verified.";
     ledger = rejectReceipt(ledger, error);
     verification = "rejected";
-    verificationNote = `${code}. ${message}`;
     addTrace("ledger:rejected", code);
-    appendMessage("system", `${COPY.rejected} ${code}.`, { tone: "reject" });
+    const message = `Receipt rejected. ${code}. The ledger did not move.`;
+    el.announcer.textContent = message;
+    appendMessage("system", message, { tone: "reject" });
     renderMessages();
     render();
   } finally {
@@ -467,7 +431,6 @@ function reset() {
   traceId = 0;
   receipt = null;
   verification = "idle";
-  verificationNote = "";
   replayNote = "The ledger must refuse a replayed receipt.";
   copied = false;
   startedAtEpoch = Date.now();
@@ -484,7 +447,6 @@ function reset() {
   });
   el.replayNote.dataset.state = "idle";
   el.replayNote.textContent = replayNote;
-  el.playerState.textContent = "Player · idle";
   addTrace("demo:reset", "balance restored");
   renderMessages();
   render();
@@ -512,6 +474,11 @@ function markCopied() {
   }, 1600);
 }
 
+function openDialog(dialog) {
+  if (el.player.status === "playing") el.player.pause("user");
+  dialog.showModal();
+}
+
 el.composer.addEventListener("submit", (event) => {
   event.preventDefault();
   if (ledger.balance < MESSAGE_COST) {
@@ -525,11 +492,21 @@ el.message.addEventListener("input", updateSend);
 el.replay.addEventListener("click", replayReceipt);
 el.reset.addEventListener("click", reset);
 el.copy.addEventListener("click", copyReceipt);
+el.inspect.addEventListener("click", () => openDialog(el.developerDialog));
+el.how.addEventListener("click", () => openDialog(el.howDialog));
+
+for (const button of document.querySelectorAll("[data-close]")) {
+  button.addEventListener("click", () => button.closest("dialog")?.close());
+}
+for (const dialog of [el.developerDialog, el.howDialog]) {
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+}
 
 el.player.addEventListener("adharness:started", (event) => {
   milestone = -1;
   setFilm(0, "playing");
-  el.playerState.textContent = "Player · playing";
   addTrace(
     "adharness:started",
     `${Math.round(event.detail.durationMs / 1000)}s · +${event.detail.reward}`,
@@ -547,16 +524,13 @@ el.player.addEventListener("adharness:progress", (event) => {
 el.player.addEventListener("adharness:paused", (event) => {
   const elapsed = Math.min(1, event.detail.elapsedMs / AD.durationMs);
   setFilm(elapsed, "paused");
-  el.playerState.textContent = "Player · paused";
   addTrace("adharness:paused", event.detail.reason);
 });
 el.player.addEventListener("adharness:resumed", () => {
-  el.playerState.textContent = "Player · playing";
   addTrace("adharness:resumed");
 });
 el.player.addEventListener("adharness:completed", (event) => {
   setFilm(1, "completed");
-  el.playerState.textContent = "Player · completed";
   addTrace(
     "adharness:completed",
     `${event.detail.claim.elapsedMs}ms · nonce ${event.detail.claim.nonce.slice(0, 8)}`,
@@ -565,7 +539,6 @@ el.player.addEventListener("adharness:completed", (event) => {
 });
 el.player.addEventListener("adharness:reset", () => {
   setFilm(0, "idle");
-  el.playerState.textContent = "Player · idle";
 });
 
 addTrace("component:mounted", `${START_BALANCE} credits · ${MAX_ADS} watches`);
